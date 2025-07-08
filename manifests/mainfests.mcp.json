@@ -1,0 +1,80 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Microsoft/CopilotStudio-Tool-Manifest/main/schemas/2.0.0/manifest.schema.json",
+  "id": "dcri-mcp-tools",
+  "name": "DCRI Clinical Tools",
+  "description": "A suite of tools for clinical research operations at DCRI, including document Q&A, SQL review, and data validation.",
+  "publisher": "DCRI",
+  "version": "1.0.0",
+  "namespace": "dcri",
+  "contact": {
+    "name": "Support",
+    "url": "https://support.example.com",
+    "email": "support@example.com"
+  },
+  "license": {
+    "url": "https://example.com/license"
+  },
+  "privacy": {
+    "url": "https://example.com/privacy"
+  },
+  "endpoints": [
+    {
+      "url": "https://your-app-service-url.azurewebsites.net",
+      "description": "Production Endpoint"
+    }
+  ],
+  "functions": [
+    {
+      "id": "clinical_protocol_qa",
+      "name": "Clinical Protocol Q&A",
+      "description": "Answers questions based on the latest clinical protocol document in SharePoint.",
+      "parameters": [
+        {
+          "name": "question",
+          "type": "string",
+          "description": "The question to ask about the clinical protocol.",
+          "required": true
+        }
+      ],
+      "return": {
+        "type": "object",
+        "properties": {
+          "answer": {
+            "type": "string",
+            "description": "The answer found in the document."
+          }
+        }
+      },
+      "verb": "post",
+      "path": "/run_tool/clinical_protocol_qa"
+    },
+    {
+      "id": "sql_reviewer",
+      "name": "SQL Reviewer",
+      "description": "Reviews a SQL query for common issues and suggests improvements.",
+      "parameters": [
+        {
+          "name": "query",
+          "type": "string",
+          "description": "The SQL query to review.",
+          "required": true
+        }
+      ],
+      "return": {
+        "type": "object",
+        "properties": {
+          "issues": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "suggestions": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      },
+      "verb": "post",
+      "path": "/run_tool/sql_reviewer"
+    }
+  ]
+}
