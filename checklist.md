@@ -12,13 +12,13 @@ Dependent Tools (Stage 4): The tools in Stage 4 depend on the SharePoint service
 Stage 1: Core Server & MVP (Critical Path)
 Goal: Get a basic, runnable server with one simple tool working.
 
-[ ] 0. Project Setup: Run ./setup.sh to create the project structure. This also creates tools/test_echo.py which we'll use for initial testing.
+[x] 0. Project Setup: Run ./setup.sh to create the project structure. This also creates tools/test_echo.py which we'll use for initial testing.
 
-[ ] 1. Environment & Dependencies: Populate requirements.txt and install dependencies.
+[x] 1. Environment & Dependencies: Populate requirements.txt and install dependencies.
 
-[ ] 2. Core Server (server.py): Implement the Flask server to dynamically load and run tools.
+[x] 2. Core Server (server.py): Implement the Flask server to dynamically load and run tools.
 
-[ ] 3. Server Tests (tests/test_server.py): Write tests to confirm the /health endpoint and tool-running logic work correctly using the test_echo tool.
+[x] 3. Server Tests (tests/test_server.py): Write tests to confirm the /health endpoint and tool-running logic work correctly using the test_echo tool.
 
 Stage 2: Foundational Services (Parallel Track 1)
 Goal: Build the services required for interacting with SharePoint.
