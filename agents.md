@@ -31,3 +31,8 @@ Ask for Clarification: If a task in the checklist is unclear or ambiguous, ask f
 One Task at a Time: Focus on completing one checklist item at a time to ensure high-quality, testable code.
 
 Refer to Existing Files: Use the context from existing project files (README.md, .env.example, etc.) to inform your work.
+
+Prevent binary file issues for Codex:
+- Convert any UTF-16 or non-UTF8 files to UTF-8 before committing.
+- Normalize all line endings to LF (`\n`), and remove carriage returns (`\r`).
+- Do not treat misencoded files as binary — correct them first and proceed.

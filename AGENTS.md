@@ -1,8 +1,38 @@
-# Agent Instructions
+Agent Instructions & Directives
+This document outlines the core instructions and operating procedures for all AI agents working on the dcri-mcp-tools project.
 
-- Scope: Entire repository.
-- After modifying any code or adding new code files, update `checklist.md` in the repository root to reflect the progress made.
-- Mark completed tasks with `- [x]` or add new tasks where appropriate.
-- Every commit that touches code should also contain corresponding updates to `checklist.md` when relevant.
-- Preserve the existing structure and stage headings in `checklist.md` while updating.
-- Include a summary of checklist updates in pull request messages.
+Primary Directive: Update the Checklist
+This is your most important task.
+
+After you successfully complete any development task (such as creating a file, implementing a function, or writing a test), your final action must be to:
+
+Open the CHECKLIST.md file.
+
+Find the specific item or sub-item you just completed.
+
+Mark the checkbox as complete by changing [ ] to [x].
+
+This ensures the project status is always accurate and provides a clear record of what has been accomplished.
+
+Example:
+If you have just finished creating the server.py file, you will find the corresponding line in CHECKLIST.md and update it:
+
+Before:
+- [ ] 2. Core Server (server.py): Implement the Flask server...
+
+After:
+- [x] 2. Core Server (server.py): Implement the Flask server...
+
+General Instructions
+Follow the Checklist: Use CHECKLIST.md as your guide for all development tasks. Do not work on tasks out of the specified order unless instructed.
+
+Ask for Clarification: If a task in the checklist is unclear or ambiguous, ask for more details before proceeding.
+
+One Task at a Time: Focus on completing one checklist item at a time to ensure high-quality, testable code.
+
+Refer to Existing Files: Use the context from existing project files (README.md, .env.example, etc.) to inform your work.
+
+Prevent binary file issues for Codex:
+- Convert any UTF-16 or non-UTF8 files to UTF-8 before committing.
+- Normalize all line endings to LF (`\n`), and remove carriage returns (`\r`).
+- Do not treat misencoded files as binary — correct them first and proceed.
