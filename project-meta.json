@@ -1,0 +1,1 @@
+{"name":"dcri-mcp-tools","description":"A modular tool server for DCRI clinical research with Azure integration.","technologies":["Flask","Docker","Python","Azure","REST"],"category":"api","status":"active","language":"Python"}
