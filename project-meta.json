@@ -1,14 +1,17 @@
 {
   "name": "dcri-mcp-tools",
-  "description": "A modular tool server for DCRI clinical research designed for Azure.",
+  "description": "A modular tool server for DCRI clinical research using MCP and Azure.",
   "technologies": [
     "Flask",
     "Docker",
-    "Azure Key Vault"
+    "Azure",
+    "Python",
+    "Microsoft Graph API"
   ],
   "category": [
     "api",
-    "backend"
+    "web-app",
+    "automation"
   ],
   "status": "active",
   "language": [
