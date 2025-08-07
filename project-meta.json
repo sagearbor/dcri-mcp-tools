@@ -1,1 +1,1 @@
-
+{"name":"dcri-mcp-tools","description":"Modular tool server for DCRI clinical research on Azure. Accessible via REST API.","technologies":["Python","Flask","Docker","Azure","Git"],"category":["web-app","api","automation"],"status":"active","language":["Python"],"hosted_url":null}
