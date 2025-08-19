@@ -1,17 +1,15 @@
 {
   "name": "dcri-mcp-tools",
-  "description": "A modular tool server for DCRI clinical research using MCP and Azure.",
+  "description": "Modular tool server for DCRI clinical research on Azure. REST API backend with Flask.",
   "technologies": [
     "Flask",
     "Docker",
     "Azure",
-    "Python",
-    "Microsoft Graph API"
+    "Python"
   ],
   "category": [
-    "api",
     "web-app",
-    "automation"
+    "api"
   ],
   "status": "active",
   "language": [
@@ -22,6 +20,6 @@
     "commits_30d": 1,
     "last_commit": "2025-08-07",
     "contributors": 0,
-    "hotness_score": 32
+    "hotness_score": 22
   }
 }
