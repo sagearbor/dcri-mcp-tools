@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ tool_name }} - Interactive Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .description {
+            color: #666;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            line-height: 1.6;
+        }
+        .demo-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .panel {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .panel h3 {
+            margin-top: 0;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .input-editor {
+            width: 100%;
+            min-height: 300px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            padding: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            background: white;
+            resize: vertical;
+        }
+        .output-display {
+            width: 100%;
+            min-height: 300px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            padding: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            background: white;
+            overflow: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .status {
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: inline-block;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.running {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        .example-selector {
+            margin-bottom: 10px;
+        }
+        .example-selector select {
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .json-error {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0,0,0,.1);
+            border-radius: 50%;
+            border-top-color: #667eea;
+            animation: spin 1s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Tools List</a>
+        
+        <h1>🔬 {{ tool_name.replace('_', ' ').title() }}</h1>
+        
+        <div class="description">
+            <strong>Description:</strong> {{ description }}
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" onclick="runTool()">
+                <span id="run-text">▶ Run Tool</span>
+            </button>
+            <button class="btn btn-secondary" onclick="clearOutput()">Clear Output</button>
+            <button class="btn btn-secondary" onclick="formatJSON()">Format JSON</button>
+            <div id="status"></div>
+        </div>
+        
+        <div class="demo-section">
+            <div class="panel">
+                <h3>📝 Input (JSON)</h3>
+                {% if example_inputs %}
+                <div class="example-selector">
+                    <label>Load example: </label>
+                    <select onchange="loadExample(this.value)">
+                        <option value="">-- Select an example --</option>
+                        {% for example_name in example_inputs.keys() %}
+                        <option value="{{ example_name }}">{{ example_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %}
+                <textarea id="input-editor" class="input-editor" placeholder="Enter JSON input here...">{{ default_input }}</textarea>
+                <div id="json-error" class="json-error"></div>
+            </div>
+            
+            <div class="panel">
+                <h3>📊 Output</h3>
+                <div style="font-size: 12px; color: #666; margin-bottom: 10px;">
+                    ℹ️ Output is generated by the tool's Python logic, not AI/LLM
+                </div>
+                <div id="output-display" class="output-display">Output will appear here after running the tool...</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const examples = {{ example_inputs | tojson }};
+        
+        function loadExample(exampleName) {
+            if (exampleName && examples[exampleName]) {
+                document.getElementById('input-editor').value = JSON.stringify(examples[exampleName], null, 2);
+                clearJsonError();
+            }
+        }
+        
+        function formatJSON() {
+            const editor = document.getElementById('input-editor');
+            try {
+                const json = JSON.parse(editor.value);
+                editor.value = JSON.stringify(json, null, 2);
+                clearJsonError();
+            } catch (e) {
+                showJsonError('Invalid JSON: ' + e.message);
+            }
+        }
+        
+        function showJsonError(message) {
+            document.getElementById('json-error').textContent = message;
+        }
+        
+        function clearJsonError() {
+            document.getElementById('json-error').textContent = '';
+        }
+        
+        function clearOutput() {
+            document.getElementById('output-display').textContent = 'Output will appear here after running the tool...';
+            document.getElementById('status').innerHTML = '';
+        }
+        
+        async function runTool() {
+            const inputEditor = document.getElementById('input-editor');
+            const outputDisplay = document.getElementById('output-display');
+            const statusDiv = document.getElementById('status');
+            const runButton = document.getElementById('run-text');
+            
+            // Validate JSON
+            let inputData;
+            try {
+                inputData = JSON.parse(inputEditor.value);
+                clearJsonError();
+            } catch (e) {
+                showJsonError('Invalid JSON: ' + e.message);
+                return;
+            }
+            
+            // Show running status
+            runButton.innerHTML = '<span class="spinner"></span> Running...';
+            statusDiv.innerHTML = '<span class="status running">⏳ Processing...</span>';
+            
+            try {
+                const response = await fetch('/run_tool/{{ tool_name }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(inputData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    outputDisplay.textContent = JSON.stringify(result, null, 2);
+                    statusDiv.innerHTML = '<span class="status success">✅ Success</span>';
+                } else {
+                    outputDisplay.textContent = JSON.stringify(result, null, 2);
+                    statusDiv.innerHTML = '<span class="status error">❌ Error: ' + (result.error || 'Unknown error') + '</span>';
+                }
+            } catch (error) {
+                outputDisplay.textContent = 'Error: ' + error.message;
+                statusDiv.innerHTML = '<span class="status error">❌ Request failed</span>';
+            } finally {
+                runButton.innerHTML = '▶ Run Tool';
+            }
+        }
+        
+        // Allow Ctrl+Enter to run the tool
+        document.getElementById('input-editor').addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                runTool();
+            }
+        });
+        
+        // Auto-format JSON on load if there's default input
+        window.onload = function() {
+            const editor = document.getElementById('input-editor');
+            if (editor.value.trim()) {
+                formatJSON();
+            }
+        };
+    </script>
+</body>
+</html>

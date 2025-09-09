@@ -85,7 +85,7 @@ def run(input_data: Dict) -> Dict:
             'prediction_summary': {
                 'total_patients_analyzed': len(processed_patients),
                 'high_risk_patients_count': len(high_risk_patients),
-                'overall_predicted_retention_rate': study_retention_metrics['predicted_retention_rate'],
+                'overall_predicted_retention_rate': study_retention_metrics['predicted_retention_rates']['predicted_retention_rate'],
                 'prediction_timeframe_days': prediction_timeframe,
                 'model_confidence_score': risk_model['model_confidence'],
                 'analysis_date': datetime.now().isoformat()

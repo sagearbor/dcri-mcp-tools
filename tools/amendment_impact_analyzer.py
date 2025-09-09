@@ -51,8 +51,8 @@ def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
         'overall_impact': overall_impact,
         'recommendations': recommendations,
         'timeline_impact': timeline_impact,
-        'requires_irb_approval': overall_impact['severity'] != 'minimal',
-        'requires_fda_submission': overall_impact['severity'] == 'major',
+        'requires_irb_approval': overall_impact.get('severity', 'minimal') != 'minimal',
+        'requires_fda_submission': overall_impact.get('severity', 'minimal') == 'major',
         'affected_subjects': {
             'enrolled': current_enrollment,
             'percentage': (current_enrollment / total_target * 100) if total_target > 0 else 0
@@ -146,22 +146,22 @@ def _generate_recommendations(overall_impact: Dict, current_enrollment: int,
     
     recommendations = []
     
-    if overall_impact['requires_reconsent']:
+    if overall_impact.get('requires_reconsent', False):
         recommendations.append(
             f"Obtain re-consent from {current_enrollment} enrolled subjects before implementing changes"
         )
     
-    if overall_impact['requires_training']:
+    if overall_impact.get('requires_training', False):
         recommendations.append(
             f"Conduct training for all {sites_activated} active sites before implementation"
         )
     
-    if overall_impact['database_changes']:
+    if overall_impact.get('database_changes', False):
         recommendations.append(
             "Update EDC system and test changes before deployment"
         )
     
-    if overall_impact['severity'] == 'major':
+    if overall_impact.get('severity', 'minimal') == 'major':
         recommendations.append(
             "Submit amendment to FDA and await approval before implementation"
         )
@@ -174,7 +174,7 @@ def _generate_recommendations(overall_impact: Dict, current_enrollment: int,
             "Consider delaying implementation until study completion due to high enrollment"
         )
     
-    if overall_impact['risk_level'] == 'high':
+    if overall_impact.get('risk_level', 'low') == 'high':
         recommendations.append(
             "Develop detailed implementation plan with risk mitigation strategies"
         )
@@ -193,23 +193,23 @@ def _estimate_timeline_impact(overall_impact: Dict, sites_activated: int) -> Dic
     base_days = 0
     
     # IRB approval time
-    if overall_impact['severity'] != 'minimal':
+    if overall_impact.get('severity', 'minimal') != 'minimal':
         base_days += 30  # IRB review
     
     # FDA review time
-    if overall_impact['severity'] == 'major':
+    if overall_impact.get('severity', 'minimal') == 'major':
         base_days += 60  # FDA review
     
     # Training time
-    if overall_impact['requires_training']:
+    if overall_impact.get('requires_training', False):
         base_days += max(14, sites_activated * 2)  # Training rollout
     
     # Database changes
-    if overall_impact['database_changes']:
+    if overall_impact.get('database_changes', False):
         base_days += 21  # EDC updates and testing
     
     # Re-consent process
-    if overall_impact['requires_reconsent']:
+    if overall_impact.get('requires_reconsent', False):
         base_days += 30  # Re-consent period
     
     return {
@@ -217,11 +217,11 @@ def _estimate_timeline_impact(overall_impact: Dict, sites_activated: int) -> Dic
         'estimated_delay_weeks': round(base_days / 7, 1),
         'critical_path_items': [
             item for item, required in [
-                ('FDA approval', overall_impact['severity'] == 'major'),
-                ('IRB approval', overall_impact['severity'] != 'minimal'),
-                ('Site training', overall_impact['requires_training']),
-                ('Database updates', overall_impact['database_changes']),
-                ('Re-consent', overall_impact['requires_reconsent'])
+                ('FDA approval', overall_impact.get('severity', 'minimal') == 'major'),
+                ('IRB approval', overall_impact.get('severity', 'minimal') != 'minimal'),
+                ('Site training', overall_impact.get('requires_training', False)),
+                ('Database updates', overall_impact.get('database_changes', False)),
+                ('Re-consent', overall_impact.get('requires_reconsent', False))
             ] if required
         ]
     }

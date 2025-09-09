@@ -223,6 +223,7 @@ def _search_references(references: List[Dict], query: str) -> Dict:
         return {
             'search_results': references,
             'total_results': len(references),
+            'result_count': len(references),
             'query': 'all'
         }
     
@@ -252,6 +253,7 @@ def _search_references(references: List[Dict], query: str) -> Dict:
     return {
         'search_results': search_results,
         'total_results': len(search_results),
+        'result_count': len(search_results),
         'query': query,
         'search_summary': _generate_search_summary(search_results, query)
     }
@@ -375,12 +377,20 @@ def _format_in_text_citation(ref: Dict, style: str, options: Dict) -> str:
     year = ref.get('year', '')
     
     if style == 'apa':
+        def extract_lastname(author):
+            # Handle "Smith, J." format
+            if ',' in author:
+                return author.split(',')[0].strip()
+            # Handle "John Smith" format
+            else:
+                return author.split()[-1]
+        
         if len(authors) == 1:
-            return f"({authors[0].split()[-1]}, {year})"
+            return f"({extract_lastname(authors[0])}, {year})"
         elif len(authors) == 2:
-            return f"({authors[0].split()[-1]} & {authors[1].split()[-1]}, {year})"
+            return f"({extract_lastname(authors[0])} & {extract_lastname(authors[1])}, {year})"
         else:
-            return f"({authors[0].split()[-1]} et al., {year})"
+            return f"({extract_lastname(authors[0])} et al., {year})"
     
     elif style == 'vancouver':
         ref_id = ref.get('id', '1')
@@ -452,13 +462,25 @@ def _format_authors_vancouver(authors: List[str]) -> str:
     
     formatted_authors = []
     for author in authors:
-        parts = author.split()
-        if len(parts) >= 2:
-            last_name = parts[-1]
-            initials = ''.join([name[0] for name in parts[:-1]])
-            formatted_authors.append(f"{last_name} {initials}")
+        # Handle "Smith, J." format
+        if ',' in author:
+            parts = author.split(',')
+            last_name = parts[0].strip()
+            initials = parts[1].strip() if len(parts) > 1 else ''
+            formatted_authors.append(f"{initials} {last_name}")
         else:
-            formatted_authors.append(author)
+            # Handle "Anderson P" or "John Smith" format
+            parts = author.split()
+            if len(parts) == 2 and len(parts[-1]) == 1:
+                # "Anderson P" format (FirstName Initial)
+                formatted_authors.append(author)
+            elif len(parts) >= 2:
+                # "John Smith" format 
+                last_name = parts[-1]
+                initials = ''.join([name[0] for name in parts[:-1]])
+                formatted_authors.append(f"{initials} {last_name}")
+            else:
+                formatted_authors.append(author)
     
     return ', '.join(formatted_authors) + '.'
 
@@ -711,27 +733,46 @@ def _parse_bibtex(data: str) -> List[Dict]:
     """Parse BibTeX import data (simplified)."""
     # This is a simplified parser - a full parser would be more complex
     entries = []
-    entry_pattern = r'@(\w+)\{([^,]+),([^}]+)\}'
+    # Match complete bibtex entries by counting braces
+    import re
     
-    for match in re.finditer(entry_pattern, data, re.DOTALL):
-        entry_type = match.group(1).lower()
-        entry_id = match.group(2).strip()
-        entry_content = match.group(3)
+    # Find all @type{...} entries
+    start_pattern = r'@(\w+)\s*\{\s*([^,\s]+)\s*,'
+    starts = list(re.finditer(start_pattern, data))
+    
+    for i, start_match in enumerate(starts):
+        entry_type = start_match.group(1).lower()
+        entry_id = start_match.group(2).strip()
         
-        ref = {'id': entry_id, 'type': entry_type}
+        # Find the matching closing brace
+        start_pos = start_match.end()
+        brace_count = 1
+        pos = start_pos
         
-        # Parse fields
-        field_pattern = r'(\w+)\s*=\s*\{([^}]+)\}'
-        for field_match in re.finditer(field_pattern, entry_content):
-            field_name = field_match.group(1).lower()
-            field_value = field_match.group(2).strip()
+        while pos < len(data) and brace_count > 0:
+            if data[pos] == '{':
+                brace_count += 1
+            elif data[pos] == '}':
+                brace_count -= 1
+            pos += 1
+        
+        if brace_count == 0:
+            entry_content = data[start_pos:pos-1].strip()
             
-            if field_name == 'author':
-                ref['authors'] = [a.strip() for a in field_value.split(' and ')]
-            else:
-                ref[field_name] = field_value
-        
-        entries.append(ref)
+            ref = {'id': entry_id, 'type': entry_type}
+            
+            # Parse fields - allow for multi-line entries
+            field_pattern = r'(\w+)\s*=\s*\{([^}]+)\}'
+            for field_match in re.finditer(field_pattern, entry_content):
+                field_name = field_match.group(1).lower()
+                field_value = field_match.group(2).strip()
+                
+                if field_name == 'author':
+                    ref['authors'] = [a.strip() for a in field_value.split(' and ')]
+                else:
+                    ref[field_name] = field_value
+            
+            entries.append(ref)
     
     return entries
 

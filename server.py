@@ -12,7 +12,7 @@ if not hasattr(werkzeug.urls, "url_parse"):
 if not hasattr(werkzeug.urls, "url_quote"):
     werkzeug.urls.url_quote = _url_quote
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template_string
 from dotenv import load_dotenv
 
 # --- Configuration Loading ---
@@ -130,6 +130,16 @@ def index():
                 background: #007bff;
                 color: white;
             }
+            .tool-item a {
+                color: inherit;
+                text-decoration: none;
+            }
+            .demo-link {
+                display: inline-block;
+                margin-left: 5px;
+                color: #28a745;
+                font-weight: bold;
+            }
             .tooltip {
                 visibility: hidden;
                 background-color: #333;
@@ -181,9 +191,9 @@ def index():
         </div>
         
         <h2>Available Tools (""" + str(len(tools_info)) + """ total):</h2>
-        <p style="color: #666; font-size: 14px;">Hover over any tool to see its description</p>
+        <p style="color: #666; font-size: 14px;">Click any tool to try it interactively | Hover for description</p>
         <div class="tools-list">
-            """ + "".join([f'<span class="tool-item">{tool}<span class="tooltip">{tools_info[tool]}</span></span>' 
+            """ + "".join([f'<span class="tool-item"><a href="/demo/{tool}">{tool}</a><span class="tooltip">{tools_info[tool]}</span></span>' 
                           for tool in sorted(tools_info.keys())]) + """
         </div>
         
@@ -206,6 +216,10 @@ def health_check():
     app.logger.info("Health check endpoint was hit.")
     return jsonify({"status": "ok"}), 200
 
+
+# Import and add demo route
+from server_demo import add_demo_route
+add_demo_route(app)
 
 @app.route("/run_tool/<tool_name>", methods=["POST"])
 def run_tool(tool_name):

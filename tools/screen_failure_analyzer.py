@@ -135,7 +135,7 @@ def run(input_data: Dict) -> Dict:
                                 'count': 0,
                                 'percentage': 0,
                                 'sites_affected': set(),
-                                'criteria_type': self._categorize_failure_reason(reason, inclusion_criteria, exclusion_criteria)
+                                'criteria_type': _categorize_failure_reason(reason, inclusion_criteria, exclusion_criteria)
                             }
                         failure_reasons[reason]['count'] += 1
                         failure_reasons[reason]['sites_affected'].add(site_id)
@@ -147,7 +147,7 @@ def run(input_data: Dict) -> Dict:
                 
                 # Demographic analysis for failures
                 if age:
-                    age_group = self._get_age_group(age)
+                    age_group = _get_age_group(age)
                     if age_group not in demographic_analysis['age_groups']:
                         demographic_analysis['age_groups'][age_group] = {'screened': 0, 'failed': 0}
                     demographic_analysis['age_groups'][age_group]['screened'] += 1
@@ -161,7 +161,7 @@ def run(input_data: Dict) -> Dict:
             
             # Track demographics for all screenings
             if age:
-                age_group = self._get_age_group(age)
+                age_group = _get_age_group(age)
                 if age_group not in demographic_analysis['age_groups']:
                     demographic_analysis['age_groups'][age_group] = {'screened': 0, 'failed': 0}
                 demographic_analysis['age_groups'][age_group]['screened'] += 1
@@ -222,7 +222,7 @@ def run(input_data: Dict) -> Dict:
                 'type': 'Top Failure Reason',
                 'finding': f"'{top_failure[0]}' accounts for {top_failure[1]['percentage']}% of screen failures",
                 'impact': f"Affects {top_failure[1]['sites_affected']} sites",
-                'recommendation': self._get_failure_reason_recommendation(top_failure[0], top_failure[1])
+                'recommendation': _get_failure_reason_recommendation(top_failure[0], top_failure[1])
             })
         
         # Site performance variation

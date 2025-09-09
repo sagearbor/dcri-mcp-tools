@@ -229,7 +229,11 @@ def _create_structured_redaction(text: str, replacement_char: str) -> str:
 def _is_in_allow_list(text: str, allow_list: List[str]) -> bool:
     """Check if text is in the allow list."""
     text_lower = text.lower()
-    return any(allow_term.lower() in text_lower for allow_term in allow_list)
+    # Check if the matched text is part of any allow_list term OR contains any allow_list term
+    return any(
+        allow_term.lower() in text_lower or text_lower in allow_term.lower() 
+        for allow_term in allow_list
+    )
 
 
 def _generate_annotations(original_text: str, redactions: List[Dict]) -> List[Dict]:

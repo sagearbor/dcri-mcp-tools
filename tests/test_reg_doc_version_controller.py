@@ -11,13 +11,13 @@ def test_reg_doc_version_controller_well_controlled():
                 'document_name': 'Protocol Version 2.0',
                 'document_type': 'Protocol',
                 'current_version': '2.0',
-                'version_date': '2024-01-15',
+                'version_date': '2025-07-15',
                 'status': 'Approved',
                 'author': 'Dr. Smith',
                 'approver': 'Dr. Johnson',
-                'approval_date': '2024-01-20',
-                'effective_date': '2024-02-01',
-                'next_review_date': '2025-01-15',
+                'approval_date': '2025-07-20',
+                'effective_date': '2025-08-01',
+                'next_review_date': '2026-07-15',
                 'version_controlled': True
             },
             {
@@ -25,12 +25,12 @@ def test_reg_doc_version_controller_well_controlled():
                 'document_name': 'Informed Consent Form',
                 'document_type': 'Consent Form',
                 'current_version': '1.5',
-                'version_date': '2024-02-01',
+                'version_date': '2025-08-01',
                 'status': 'Approved',
                 'author': 'Clinical Team',
                 'approver': 'Dr. Johnson',
-                'approval_date': '2024-02-05',
-                'effective_date': '2024-02-10',
+                'approval_date': '2025-08-05',
+                'effective_date': '2025-08-10',
                 'version_controlled': True
             }
         ],
@@ -44,10 +44,10 @@ def test_reg_doc_version_controller_well_controlled():
                 'name': 'Site 001',
                 'role': 'Investigator Site',
                 'received_documents': {
-                    'DOC001': {'version': '2.0', 'date_received': '2024-02-01'},
-                    'DOC002': {'version': '1.5', 'date_received': '2024-02-10'}
+                    'DOC001': {'version': '2.0', 'date_received': '2025-08-01'},
+                    'DOC002': {'version': '1.5', 'date_received': '2025-08-10'}
                 },
-                'last_update': '2024-02-10'
+                'last_update': '2025-08-10'
             }
         ],
         'regulatory_requirements': {

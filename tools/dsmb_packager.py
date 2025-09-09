@@ -406,8 +406,28 @@ def identify_open_issues(safety_data: Dict, enrollment_data: Dict,
     """Identify issues requiring DSMB attention."""
     open_issues = []
     
+    # Check for deaths
+    deaths = safety_data.get("deaths", [])
+    if deaths:
+        open_issues.append({
+            "issue": "Deaths reported",
+            "count": len(deaths),
+            "action_needed": "Review death narratives and causality",
+            "priority": "CRITICAL"
+        })
+    
+    # Check for high SAE count
+    saes = safety_data.get("serious_adverse_events", [])
+    if len(saes) >= 10:
+        open_issues.append({
+            "issue": "High SAE count",
+            "count": len(saes),
+            "action_needed": "Review SAE patterns and safety profile",
+            "priority": "HIGH"
+        })
+    
     # Check for unresolved SAEs
-    unresolved_saes = [sae for sae in safety_data.get("serious_adverse_events", [])
+    unresolved_saes = [sae for sae in saes
                       if sae.get("outcome") == "ongoing"]
     if unresolved_saes:
         open_issues.append({

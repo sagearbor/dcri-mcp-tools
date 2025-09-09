@@ -55,7 +55,7 @@ def test_consent_grade_checker_empty_text():
 def test_consent_grade_checker_statistics():
     """Test that statistics are calculated correctly."""
     input_data = {
-        'text': "This is a simple sentence. It has ten words total here.",
+        'text': "This is a simple sentence. It has ten words here.",
         'target_grade': 8
     }
     

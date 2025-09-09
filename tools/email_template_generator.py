@@ -191,6 +191,8 @@ Study ID: {study_id}
 
 We wanted to provide you with an important update regarding the {study_name} study (Study ID: {study_id}).
 
+UPDATE TYPE: [UPDATE_TYPE]
+
 UPDATE SUMMARY:
 [UPDATE_SUMMARY]
 

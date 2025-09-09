@@ -69,7 +69,9 @@ def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     )
     
     # Determine overall status
-    if version_conflicts or approval_status.get('pending_approvals', 0) > 0:
+    # Check for high/medium severity conflicts only
+    significant_conflicts = [c for c in version_conflicts if c.get('severity') in ['high', 'medium']]
+    if significant_conflicts or approval_status.get('pending_approvals', 0) > 0:
         version_control_status = 'needs_attention'
     elif any(not doc.get('version_controlled', True) for doc in documents):
         version_control_status = 'inconsistent'

@@ -45,8 +45,10 @@ def run(input_data: Dict) -> Dict:
         # If no exact match, try fuzzy matching
         if not explanation:
             explanation, match_confidence = find_fuzzy_match(term_normalized, glossary_data)
-            match_type = 'fuzzy'
-            if match_confidence < 0.6:  # Low confidence threshold
+            if explanation and match_confidence >= 0.6:
+                match_type = 'fuzzy'
+            else:
+                explanation = None
                 match_type = 'none'
         
         # If still no match, generate explanation based on term pattern
@@ -83,7 +85,11 @@ def run(input_data: Dict) -> Dict:
                 ]
             }
         
-        confidence_score = calculate_confidence_score(match_type, explanation, term_normalized)
+        # Calculate confidence score, preserving fuzzy match confidence
+        if match_type == 'fuzzy' and 'match_confidence' in locals():
+            confidence_score = match_confidence
+        else:
+            confidence_score = calculate_confidence_score(match_type, explanation, term_normalized)
         
         return {
             'success': True,
@@ -154,9 +160,24 @@ def find_fuzzy_match(term: str, glossary_data: Dict) -> tuple:
     best_match = None
     best_score = 0.0
     
+    # Check for abbreviations first (common in clinical trials)
+    if len(term) <= 4:
+        for key, definition in glossary_data.items():
+            # Create abbreviation from key words
+            words = key.lower().split()
+            abbrev = ''.join(word[0] for word in words if word)
+            if abbrev == term.lower():
+                return definition, 0.9  # High confidence for abbreviation match
+            
+            # Check for common clinical abbreviations
+            if term.lower() == 'ae' and 'adverse event' in key.lower():
+                return definition, 0.85
+            if term.lower() == 'sae' and 'serious adverse event' in key.lower():
+                return definition, 0.85
+    
     for key, definition in glossary_data.items():
         score = calculate_similarity(term, key.lower())
-        if score > best_score and score > 0.6:  # Minimum threshold
+        if score > best_score and score > 0.7:  # Higher minimum threshold
             best_score = score
             best_match = definition
     
@@ -164,7 +185,7 @@ def find_fuzzy_match(term: str, glossary_data: Dict) -> tuple:
     for key, definition in glossary_data.items():
         if term in key.lower() or key.lower() in term:
             partial_score = min(len(term), len(key)) / max(len(term), len(key))
-            if partial_score > best_score and partial_score > 0.5:
+            if partial_score > best_score and partial_score > 0.6:  # Higher threshold
                 best_score = partial_score
                 best_match = definition
     
@@ -416,8 +437,12 @@ def calculate_confidence_score(match_type: str, explanation: str, term: str) -> 
     
     base_score = base_scores.get(match_type, 0.5)
     
-    # Adjust based on explanation quality
-    if explanation:
+    # For exact matches, keep high confidence
+    if match_type == 'exact':
+        return base_score
+    
+    # Adjust based on explanation quality for other match types
+    if explanation and match_type != 'exact':
         # Longer, more detailed explanations get higher scores
         length_factor = min(1.0, len(explanation) / 200)
         

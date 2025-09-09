@@ -360,12 +360,14 @@ class TestReferenceManager:
                 'title': 'Valid Reference',
                 'authors': ['Smith J'],
                 'year': '2023',
+                'journal': 'Test Journal',
                 'custom_field': 'VALID-123'
             },
             {
                 'title': 'Invalid Reference',
                 'authors': ['Jones M'],
                 'year': '2023',
+                'journal': 'Test Journal',
                 'custom_field': 'INVALID'
             }
         ]
