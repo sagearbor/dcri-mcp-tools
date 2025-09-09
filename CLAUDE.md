@@ -24,11 +24,11 @@ pip install -r requirements.txt
 
 ### Running the Application
 ```bash
-# Local development server (runs on http://127.0.0.1:8000)
+# Local development server (runs on http://127.0.0.1:8210)
 python server.py
 
 # Production with Gunicorn
-gunicorn --bind 0.0.0.0:8000 server:app
+gunicorn --bind 0.0.0.0:8210 server:app
 ```
 
 ### Testing
@@ -44,12 +44,12 @@ pytest tests/test_auth.py -v
 ### Manual Testing
 ```bash
 # Health check endpoint
-curl http://127.0.0.1:8000/health
+curl http://127.0.0.1:8210/health
 
 # Test echo tool example
 curl -X POST -H "Content-Type: application/json" \
      -d '{"text": "hello world"}' \
-     http://127.0.0.1:8000/run_tool/test_echo
+     http://127.0.0.1:8210/run_tool/test_echo
 ```
 
 ## Architecture

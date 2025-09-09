@@ -101,7 +101,7 @@ To run the Flask development server:
 python server.py
 ```
 
-The server will start on `http://127.0.0.1:8000`. You can test that it's running by visiting the health check endpoint: `http://127.0.0.1:8000/health`.
+The server will start on `http://127.0.0.1:8210`. You can test that it's running by visiting the health check endpoint: `http://127.0.0.1:8210/health`.
 
 ### Running Tests
 
@@ -118,7 +118,7 @@ Each tool is exposed as a POST endpoint. For example, to use the `test_echo` too
 ```
 curl -X POST -H "Content-Type: application/json" \
 -d '{"text": "hello world"}' \
-[http://127.0.0.1:8000/run_tool/test_echo](http://127.0.0.1:8000/run_tool/test_echo)
+http://127.0.0.1:8210/run_tool/test_echo
 ```
 
 **Expected Response:**

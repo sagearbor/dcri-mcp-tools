@@ -23,5 +23,6 @@ def test_run_tool_invalid_tool(client):
     assert resp.status_code == 404
 
 def test_run_tool_no_json(client):
-    resp = client.post("/run_tool/test_echo")
+    # Send request with proper content-type but empty JSON body
+    resp = client.post("/run_tool/test_echo", json={})
     assert resp.status_code == 400
