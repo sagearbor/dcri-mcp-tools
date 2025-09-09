@@ -61,6 +61,143 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
+@app.route("/", methods=["GET"])
+def index():
+    """
+    Homepage that displays available endpoints and status.
+    """
+    import glob
+    import ast
+    
+    tools_info = {}
+    for tool_file in glob.glob("tools/*.py"):
+        tool_name = tool_file.replace("tools/", "").replace(".py", "")
+        if tool_name != "__init__":
+            # Try to extract docstring from the tool file
+            try:
+                with open(tool_file, 'r') as f:
+                    content = f.read()
+                    tree = ast.parse(content)
+                    docstring = ast.get_docstring(tree)
+                    if docstring:
+                        # Clean up the docstring - take first 2-3 lines
+                        lines = docstring.strip().split('\n')
+                        description = ' '.join(lines[:3]).strip()
+                    else:
+                        description = "No description available"
+            except:
+                description = "No description available"
+            
+            tools_info[tool_name] = description
+    
+    html = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>DCRI MCP Tools Server</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+            h1 { color: #333; }
+            .status { background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 20px 0; }
+            .endpoint { background: white; padding: 15px; margin: 10px 0; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+            .method { display: inline-block; padding: 3px 8px; border-radius: 3px; font-weight: bold; margin-right: 10px; }
+            .get { background: #28a745; color: white; }
+            .post { background: #007bff; color: white; }
+            code { background: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+            .tools-count { color: #666; font-size: 14px; margin-top: 10px; }
+            .tools-list { 
+                background: white; 
+                padding: 15px; 
+                margin: 20px 0; 
+                border-radius: 5px; 
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                word-wrap: break-word;
+                line-height: 1.8;
+            }
+            .tool-item {
+                display: inline-block;
+                background: #f0f0f0;
+                padding: 3px 8px;
+                margin: 3px;
+                border-radius: 3px;
+                font-family: monospace;
+                font-size: 13px;
+                cursor: pointer;
+                position: relative;
+                transition: background 0.2s;
+            }
+            .tool-item:hover {
+                background: #007bff;
+                color: white;
+            }
+            .tooltip {
+                visibility: hidden;
+                background-color: #333;
+                color: #fff;
+                text-align: left;
+                border-radius: 5px;
+                padding: 10px;
+                position: absolute;
+                z-index: 1;
+                bottom: 125%;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 300px;
+                font-family: Arial, sans-serif;
+                font-size: 12px;
+                line-height: 1.4;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            }
+            .tooltip::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                margin-left: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: #333 transparent transparent transparent;
+            }
+            .tool-item:hover .tooltip {
+                visibility: visible;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>🏥 DCRI MCP Tools Server</h1>
+        <div class="status">✅ Server is running at http://127.0.0.1:8210</div>
+        
+        <h2>Available Endpoints:</h2>
+        
+        <div class="endpoint">
+            <span class="method get">GET</span> <code>/health</code>
+            <p>Health check endpoint - returns server status</p>
+        </div>
+        
+        <div class="endpoint">
+            <span class="method post">POST</span> <code>/run_tool/&lt;tool_name&gt;</code>
+            <p>Execute a clinical research tool</p>
+            <p>Body: JSON with tool-specific parameters</p>
+        </div>
+        
+        <h2>Available Tools (""" + str(len(tools_info)) + """ total):</h2>
+        <p style="color: #666; font-size: 14px;">Hover over any tool to see its description</p>
+        <div class="tools-list">
+            """ + "".join([f'<span class="tool-item">{tool}<span class="tooltip">{tools_info[tool]}</span></span>' 
+                          for tool in sorted(tools_info.keys())]) + """
+        </div>
+        
+        <h2>Example Usage:</h2>
+        <div class="endpoint">
+            <pre>curl -X POST http://127.0.0.1:8210/run_tool/test_echo \\
+     -H "Content-Type: application/json" \\
+     -d '{"text": "Hello DCRI!"}'</pre>
+        </div>
+    </body>
+    </html>
+    """
+    return html, 200
+
 @app.route("/health", methods=["GET"])
 def health_check():
     """
