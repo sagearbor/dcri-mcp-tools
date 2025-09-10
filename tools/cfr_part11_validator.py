@@ -5,27 +5,25 @@ import re
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Check 21 CFR Part 11 compliance for electronic signatures and records.
-    Validates electronic signature systems against FDA requirements for clinical trials.
+    Validates electronic signature systems and records against FDA 21 CFR Part 11 requirements.
     
-    Args:
-        input_data: Dict containing:
-            - electronic_records (list): List of electronic records to validate
-            - signature_system (dict): Electronic signature system information
-            - user_accounts (list): User account and access control data
-            - audit_trail (list): System audit trail entries
-            - validation_documentation (dict): System validation documents
-            - check_controls (bool, optional): Validate access controls
+    Example:
+        Input: Electronic records, signature system data, user accounts, and audit trail information
+        Output: Comprehensive compliance assessment with violations list and remediation recommendations
     
-    Returns:
-        Dict containing:
-            - compliance_status (str): 'compliant', 'non_compliant', 'partial'
-            - compliance_score (float): Overall compliance percentage
-            - part11_requirements (dict): Status of each CFR Part 11 requirement
-            - violations (list): Non-compliance issues found
-            - recommendations (list): Steps to achieve compliance
-            - audit_findings (dict): Audit trail analysis results
-            - validation_status (dict): System validation assessment
+    Parameters:
+        electronic_records : list
+            List of electronic records to validate
+        signature_system : dict
+            Electronic signature system information and capabilities
+        user_accounts : list
+            User account and access control data
+        audit_trail : list
+            System audit trail entries for validation
+        validation_documentation : dict
+            System validation documents and evidence
+        check_controls : bool
+            Whether to validate access controls (optional)
     """
     electronic_records = input_data.get('electronic_records', [])
     signature_system = input_data.get('signature_system', {})

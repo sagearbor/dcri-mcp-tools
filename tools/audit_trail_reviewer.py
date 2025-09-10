@@ -5,33 +5,19 @@ from collections import defaultdict
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Analyzes audit trail data to identify patterns and potential issues.
+    Analyzes audit trail data to identify suspicious patterns and compliance issues in clinical data systems.
     
-    Args:
-        input_data: Dictionary containing:
-            - audit_entries: List of audit trail entries with:
-                - timestamp: Event timestamp
-                - user: User who performed action
-                - action: Action performed
-                - entity: Entity affected (e.g., "CRF", "Query")
-                - entity_id: Specific entity identifier
-                - old_value: Previous value (if applicable)
-                - new_value: New value (if applicable)
-                - reason: Reason for change
-            - analysis_period: Time period to analyze (days)
-            - alert_thresholds: Thresholds for alerts:
-                - unusual_activity_multiplier: Factor for unusual activity
-                - after_hours_threshold: % of after-hours activity
-                - rapid_changes_window: Minutes for rapid change detection
+    Example:
+        Input: List of audit trail entries with timestamps, users, actions, and entities being modified
+        Output: Analysis report with suspicious patterns, compliance issues, and security recommendations
     
-    Returns:
-        Dictionary containing:
-            - summary: Overall audit trail summary
-            - user_activity: Activity breakdown by user
-            - suspicious_patterns: Identified suspicious patterns
-            - compliance_issues: Potential compliance issues
-            - recommendations: Recommended actions
-            - visualizations: Data for charts
+    Parameters:
+        audit_entries : list
+            List of audit trail entries with timestamp, user, action, entity data
+        analysis_period : int
+            Time period to analyze in days
+        alert_thresholds : dict
+            Thresholds for detecting unusual activity patterns
     """
     try:
         audit_entries = input_data.get("audit_entries", [])

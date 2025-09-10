@@ -10,13 +10,23 @@ from datetime import datetime, timedelta
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Generate project timeline.
+    Generate comprehensive project timelines with milestones and dependencies
     
-    Args:
-        input_data: Dictionary with project parameters
+    Example:
+        Input: Study parameters with start date, phases, and key activities
+        Output: Detailed timeline with milestones, critical path, and Gantt chart data
     
-    Returns:
-        Dictionary with timeline and milestones
+    Parameters:
+        start_date : str
+            Project start date in YYYY-MM-DD format
+        project_phases : list
+            List of project phases with durations and dependencies
+        study_type : str
+            Type of clinical study affecting timeline complexity
+        regulatory_requirements : list
+            Regulatory milestones and submission deadlines
+        resource_constraints : dict
+            Resource availability and capacity constraints
     """
     
     start_date = input_data.get('start_date', datetime.now().strftime('%Y-%m-%d'))

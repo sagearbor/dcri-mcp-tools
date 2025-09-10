@@ -3,7 +3,17 @@ from datetime import datetime, timedelta
 
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
-    """Manages audit findings and CAPA tracking."""
+    """
+    Manages audit findings and tracks CAPA (Corrective and Preventive Actions) completion status.
+    
+    Example:
+        Input: List of audit findings with CAPA status and due dates
+        Output: CAPA status summary with completion rates and overdue actions tracking
+    
+    Parameters:
+        findings : list
+            List of audit findings with CAPA data
+    """
     try:
         findings = input_data.get("findings", [])
         if not findings:

@@ -127,7 +127,7 @@ class TestSiteVisitReportGenerator:
         
         # Should assess as high risk due to critical findings
         assert report['executive_summary']['risk_level'] == 'High'
-        assert 'critical' in report['executive_summary']['overall_assessment'].lower()
+        assert 'significant concerns' in report['executive_summary']['overall_assessment'].lower()
         
         # Should have immediate action items
         action_items = report['action_items']

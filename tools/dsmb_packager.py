@@ -4,35 +4,29 @@ from datetime import datetime, timedelta
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Prepares comprehensive DSMB (Data Safety Monitoring Board) packages.
+    Prepares comprehensive Data Safety Monitoring Board (DSMB) packages with safety analysis and recommendations.
     
-    Args:
-        input_data: Dictionary containing:
-            - meeting_details: DSMB meeting information:
-                - meeting_date: Scheduled meeting date
-                - meeting_type: Type ("scheduled", "ad-hoc", "emergency")
-                - review_period: Data review period
-            - enrollment_data: Study enrollment statistics
-            - safety_data: Safety summary including:
-                - adverse_events: AE summary
-                - serious_adverse_events: SAE details
-                - deaths: Death reports
-                - discontinuations: Discontinuation summary
-            - efficacy_data: Efficacy endpoints (if applicable)
-            - protocol_deviations: List of protocol deviations
-            - data_cutoff_date: Database cutoff date
-            - unblinding_level: Level of unblinding ("blinded", "partial", "full")
-            - additional_analyses: List of additional requested analyses
+    Example:
+        Input: Meeting details, enrollment data, safety summary, and efficacy endpoints for DSMB review
+        Output: Complete DSMB package with executive summary and recommendations for study continuation
     
-    Returns:
-        Dictionary containing:
-            - package_contents: List of prepared documents/sections
-            - executive_summary: High-level summary
-            - safety_summary: Comprehensive safety overview
-            - enrollment_summary: Enrollment and retention metrics
-            - recommendations: Preliminary recommendations
-            - open_issues: Issues requiring DSMB attention
-            - appendices: Additional supporting materials
+    Parameters:
+        meeting_details : dict
+            DSMB meeting information including date, type, and review period
+        enrollment_data : dict
+            Study enrollment statistics and metrics
+        safety_data : dict
+            Safety summary with adverse events, SAEs, deaths, and discontinuations
+        efficacy_data : dict
+            Efficacy endpoints data (if applicable for review)
+        protocol_deviations : list
+            List of protocol deviations for review
+        data_cutoff_date : str
+            Database cutoff date for the analysis
+        unblinding_level : str
+            Level of unblinding ('blinded', 'partial', 'full')
+        additional_analyses : list
+            Additional analyses requested by the DSMB
     """
     try:
         meeting_details = input_data.get("meeting_details", {})

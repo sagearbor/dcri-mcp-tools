@@ -15,23 +15,21 @@ import hashlib
 
 def run(input_data: dict) -> dict:
     """
-    Detects potential duplicate subjects in clinical trial data
+    Detects potential duplicate subject enrollments using fuzzy matching algorithms and multiple data points.
     
-    Args:
-        input_data: Dictionary containing:
-            - data: CSV data as string containing subject information
-            - matching_fields: List of fields to use for matching
-            - matching_algorithm: 'exact', 'fuzzy', or 'comprehensive' (default: 'comprehensive')
-            - similarity_threshold: Minimum similarity score for fuzzy matching (0-100, default: 85)
+    Example:
+        Input: CSV subject data with demographic information and matching algorithm preferences
+        Output: Detection results with similarity scores and recommendations for duplicate resolution
     
-    Returns:
-        Dictionary containing:
-            - success: Boolean indicating if detection succeeded
-            - duplicates_found: List of potential duplicate groups
-            - errors: List of processing errors
-            - warnings: List of processing warnings
-            - statistics: Duplicate detection statistics
-            - recommendations: Actions to resolve duplicates
+    Parameters:
+        data : str
+            CSV data containing subject information for duplicate detection
+        matching_fields : list
+            List of data fields to use for subject matching
+        matching_algorithm : str
+            Algorithm type ('exact', 'fuzzy', 'comprehensive', default 'comprehensive')
+        similarity_threshold : int
+            Minimum similarity score for fuzzy matching (0-100, default 85)
     """
     try:
         data = input_data.get('data', '')

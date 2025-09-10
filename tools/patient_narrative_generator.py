@@ -4,30 +4,27 @@ from datetime import datetime
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Generates patient narratives for Clinical Study Reports (CSR).
+    Generate patient narratives for Clinical Study Reports (CSR) and regulatory submissions.
     
-    Args:
-        input_data: Dictionary containing:
-            - patient_data: Dictionary with patient information:
-                - subject_id: Subject identifier
-                - age: Age at enrollment
-                - sex: Patient sex
-                - medical_history: List of relevant conditions
-                - enrollment_date: Study enrollment date
-                - treatment_group: Assigned treatment
-                - completion_status: Study completion status
-            - adverse_events: List of AEs for this patient
-            - concomitant_meds: List of concomitant medications
-            - study_drug_exposure: Drug exposure information
-            - key_dates: Important study dates
-            - narrative_type: Type of narrative ("sae", "death", "discontinuation")
-            - include_sections: Optional list of sections to include
+    Example:
+        Input: Patient data with adverse events, medical history, and study drug exposure
+        Output: Structured narrative text with individual sections for CSR inclusion
     
-    Returns:
-        Dictionary containing:
-            - narrative: Generated narrative text
-            - sections: Individual narrative sections
-            - word_count: Total word count
+    Parameters:
+        patient_data : dict
+            Patient information including subject_id, demographics, medical history
+        adverse_events : list
+            List of adverse events for the patient
+        concomitant_meds : list
+            List of concomitant medications during study
+        study_drug_exposure : dict
+            Drug exposure and dosing information
+        key_dates : dict
+            Important study dates and milestones
+        narrative_type : str
+            Type of narrative: 'sae', 'death', 'discontinuation'
+        include_sections : list, optional
+            Specific sections to include in the narrative
             - key_points: List of key points included
             - metadata: Narrative metadata
     """

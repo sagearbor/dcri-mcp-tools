@@ -12,21 +12,29 @@ from collections import Counter
 
 def run(input_data: Dict) -> Dict:
     """
-    Create study newsletters with updates and communications.
+    Create professional newsletters for clinical study communications
     
-    Args:
-        input_data: Dictionary containing:
-            - action: 'create', 'template', 'format', 'schedule', 'analyze'
-            - newsletter_type: 'participant', 'investigator', 'sponsor', 'general'
-            - content_items: List of news items/updates
-            - template_style: 'formal', 'friendly', 'clinical', 'brief'
-            - frequency: 'weekly', 'monthly', 'quarterly', 'milestone'
-            - study_info: Basic study information
-            - format_options: Formatting preferences
-            - distribution_list: Target audience info
+    Example:
+        Input: Newsletter content items with study updates and participant communications for monthly distribution
+        Output: Formatted newsletter in multiple formats (HTML, text, markdown) with distribution recommendations
     
-    Returns:
-        Dictionary with newsletter content and metadata
+    Parameters:
+        action : str
+            Action to perform (create, template, format, schedule, analyze)
+        newsletter_type : str
+            Target audience (participant, investigator, sponsor, general)
+        content_items : list
+            List of news items and updates to include
+        template_style : str
+            Style preference (formal, friendly, clinical, brief)
+        frequency : str
+            Publication frequency (weekly, monthly, quarterly, milestone)
+        study_info : dict
+            Basic study information and contact details
+        format_options : dict
+            Formatting preferences and styling options
+        distribution_list : dict
+            Target audience information for distribution
     """
     try:
         action = input_data.get('action', 'create').lower()

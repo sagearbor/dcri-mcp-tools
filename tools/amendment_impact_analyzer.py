@@ -9,18 +9,23 @@ from typing import Dict, Any, List
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Analyze impact of protocol amendments.
+    Analyzes the impact of protocol amendments on study conduct and timeline.
     
-    Args:
-        input_data: Dictionary containing:
-            - amendment_type: str
-            - changes: list of change descriptions
-            - current_enrollment: int
-            - total_target: int
-            - sites_activated: int
+    Example:
+        Input: Amendment data with type, list of changes, enrollment numbers, and site count
+        Output: Impact analysis with severity assessment, timeline delays, and implementation recommendations
     
-    Returns:
-        Dictionary with impact analysis
+    Parameters:
+        amendment_type : str
+            Type of amendment (substantial, minor, administrative)
+        changes : list
+            List of change descriptions
+        current_enrollment : int
+            Number of subjects currently enrolled
+        total_target : int
+            Target enrollment for the study
+        sites_activated : int
+            Number of sites currently activated
     """
     
     amendment_type = input_data.get('amendment_type', 'minor')

@@ -4,23 +4,23 @@ from datetime import datetime
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Classify and categorize protocol deviations by severity and type.
+    Classify and categorize protocol deviations by severity and regulatory impact.
     
-    Args:
-        input_data: Dict containing:
-            - deviation_text (str): Description of the deviation
-            - deviation_date (str): Date of deviation
-            - subject_id (str, optional): Subject identifier
-            - visit_info (dict, optional): Visit-related information
-            - safety_impact (bool, optional): Whether deviation impacted safety
+    Example:
+        Input: Protocol deviation description with date, subject, and safety impact information
+        Output: Deviation classification with severity, category, reportability, and corrective actions
     
-    Returns:
-        Dict containing:
-            - classification (str): 'minor', 'major', 'critical'
-            - category (str): Type of deviation
-            - reportable (bool): Whether deviation requires regulatory reporting
-            - corrective_actions (list): Recommended corrective actions
-            - impact_assessment (dict): Assessment of impact on trial
+    Parameters:
+        deviation_text : str
+            Detailed description of the protocol deviation
+        deviation_date : str
+            Date when the deviation occurred
+        subject_id : str, optional
+            Subject identifier associated with the deviation
+        visit_info : dict, optional
+            Visit-related information and context
+        safety_impact : bool, optional
+            Whether the deviation had potential safety implications
     """
     deviation_text = input_data.get('deviation_text', '').lower()
     deviation_date = input_data.get('deviation_date', '')

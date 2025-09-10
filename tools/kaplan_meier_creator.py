@@ -8,7 +8,19 @@ import math
 from datetime import datetime
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
-    """Run kaplan meier creator analysis."""
+    """
+    Create Kaplan-Meier survival curves and perform survival analysis.
+    
+    Example:
+        Input: Survival data with time-to-event information and censoring indicators
+        Output: Kaplan-Meier analysis with survival curves, median survival times, and statistical tests
+    
+    Parameters:
+        data : list
+            List of survival records with time and event information
+        parameters : dict
+            Analysis parameters including median survival and hazard ratios
+    """
     
     # Extract input parameters
     data = input_data.get('data', [])

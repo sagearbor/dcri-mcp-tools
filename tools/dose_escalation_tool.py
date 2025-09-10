@@ -4,37 +4,25 @@ from datetime import datetime
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Supports dose escalation committees with safety assessments and recommendations.
+    Supports dose escalation committees with safety assessments and dose recommendation algorithms.
     
-    Args:
-        input_data: Dictionary containing:
-            - cohort_data: Current cohort information:
-                - cohort_number: Cohort identifier
-                - dose_level: Current dose level
-                - subjects_enrolled: Number enrolled
-                - subjects_evaluable: Number evaluable for DLT
-            - dlt_events: List of dose-limiting toxicities:
-                - subject_id: Subject identifier
-                - event_term: DLT description
-                - grade: Severity grade
-                - relationship: Causality assessment
-                - resolved: Whether resolved
-            - dose_levels: List of planned dose levels
-            - escalation_rules: Escalation scheme:
-                - design: Design type (e.g., "3+3", "mTPI", "BOIN")
-                - dlt_rate_target: Target DLT rate
-                - max_dlts_per_cohort: Maximum DLTs allowed
-            - prior_cohorts: List of completed cohorts
-            - pharmacokinetic_data: Optional PK data
+    Example:
+        Input: Current cohort data with dose-limiting toxicity events and escalation rules
+        Output: Dose escalation recommendation with safety assessment and decision rationale
     
-    Returns:
-        Dictionary containing:
-            - recommendation: Dose escalation recommendation
-            - dlt_summary: DLT analysis for current cohort
-            - safety_assessment: Overall safety assessment
-            - statistical_analysis: Statistical metrics
-            - decision_rationale: Detailed rationale
-            - next_steps: Recommended next steps
+    Parameters:
+        cohort_data : dict
+            Current cohort information including dose level and enrolled subjects
+        dlt_events : list
+            List of dose-limiting toxicity events with severity grades
+        dose_levels : list
+            Planned dose levels for the study
+        escalation_rules : dict
+            Escalation design parameters (3+3, mTPI, BOIN, etc.)
+        prior_cohorts : list
+            Historical data from completed cohorts
+        pharmacokinetic_data : dict
+            Optional PK data for dose decisions
     """
     try:
         cohort_data = input_data.get("cohort_data", {})

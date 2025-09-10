@@ -5,25 +5,22 @@ from datetime import datetime, timedelta
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
     Track and validate informed consent versions across subjects in clinical trials.
-    Ensures all subjects have current consent versions and identifies discrepancies.
     
-    Args:
-        input_data: Dict containing:
-            - subjects (list): List of subject records with consent information
-            - current_consent_version (str): Current approved consent version
-            - protocol_amendments (list, optional): List of protocol amendments with dates
-            - site_id (str, optional): Site identifier for filtering
-            - check_reconsent_required (bool, optional): Check if reconsent is needed
+    Example:
+        Input: Subject records with consent information, current consent version, and protocol amendments
+        Output: Consent compliance tracking with violations, version distribution, and reconsent requirements
     
-    Returns:
-        Dict containing:
-            - total_subjects (int): Total number of subjects checked
-            - subjects_current_consent (int): Subjects with current consent version
-            - subjects_outdated_consent (int): Subjects with outdated consent versions
-            - reconsent_required (list): Subjects requiring reconsent
-            - consent_violations (list): Consent compliance violations found
-            - version_distribution (dict): Distribution of consent versions
-            - recommendations (list): Recommendations for consent management
+    Parameters:
+        subjects : list
+            List of subject records with consent information
+        current_consent_version : str
+            Current approved consent version
+        protocol_amendments : list, optional
+            List of protocol amendments with dates requiring reconsent
+        site_id : str, optional
+            Site identifier for filtering subjects
+        check_reconsent_required : bool, optional
+            Whether to check if reconsent is needed after amendments
     """
     subjects = input_data.get('subjects', [])
     current_version = input_data.get('current_consent_version', '')

@@ -4,22 +4,21 @@ from datetime import datetime, timedelta
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Audit clinical trial processes against ICH-GCP requirements.
+    Audit clinical trial processes against ICH-GCP requirements and identify compliance gaps.
     
-    Args:
-        input_data: Dict containing:
-            - audit_areas (list): Areas to audit (e.g., 'protocol', 'consent', 'documentation')
-            - site_data (dict): Site-specific information
-            - findings (list, optional): Previous audit findings to track
-            - audit_type (str): 'full', 'focused', or 'for_cause'
+    Example:
+        Input: Site data with audit areas like protocol compliance, consent management, and documentation practices
+        Output: Compliance assessment with scores, findings, recommendations, and risk level classification
     
-    Returns:
-        Dict containing:
-            - compliance_score (float): Overall GCP compliance percentage
-            - findings (list): Detailed findings by area
-            - critical_findings (list): Critical GCP violations found
-            - recommendations (list): Corrective actions needed
-            - risk_level (str): 'low', 'medium', 'high', 'critical'
+    Parameters:
+        audit_areas : list
+            Areas to audit (e.g., 'protocol', 'consent', 'documentation')
+        site_data : dict
+            Site-specific information and compliance indicators
+        findings : list, optional
+            Previous audit findings to track repeat violations
+        audit_type : str
+            Type of audit: 'full', 'focused', or 'for_cause'
     """
     audit_areas = input_data.get('audit_areas', ['protocol', 'consent', 'documentation'])
     site_data = input_data.get('site_data', {})

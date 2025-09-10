@@ -13,23 +13,19 @@ from io import StringIO
 
 def run(input_data: dict) -> dict:
     """
-    Validates lab values against reference ranges
+    Validates laboratory values against reference ranges and clinical thresholds.
     
-    Args:
-        input_data: Dictionary containing:
-            - lab_data: CSV data with laboratory results
-            - reference_ranges: Lab reference ranges configuration
-            - validation_level: 'basic', 'standard', or 'comprehensive' (default: 'standard')
+    Example:
+        Input: CSV laboratory data with reference ranges and validation settings
+        Output: Validation results with out-of-range values, critical alerts, and statistical summary
     
-    Returns:
-        Dictionary containing:
-            - success: Boolean indicating if validation succeeded
-            - validation_results: Detailed validation results
-            - out_of_range_values: Values outside reference ranges
-            - critical_values: Values in critical ranges
-            - errors: List of processing errors
-            - warnings: List of processing warnings
-            - statistics: Validation statistics
+    Parameters:
+        lab_data : str
+            CSV formatted laboratory results data
+        reference_ranges : dict, optional
+            Laboratory reference ranges configuration with age/gender-specific ranges
+        validation_level : str, optional
+            Validation thoroughness: 'basic', 'standard', or 'comprehensive' (default: 'standard')
     """
     try:
         lab_data = input_data.get('lab_data', '')

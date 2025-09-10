@@ -9,18 +9,23 @@ from datetime import datetime
 
 def run(input_data: Dict) -> Dict:
     """
-    Explain clinical trial terms using SharePoint glossary data
+    Explain clinical trial terms using SharePoint glossary data with AI-powered explanations.
     
-    Args:
-        input_data: Dictionary containing:
-            - term: The term to explain
-            - context: Optional context where the term was encountered
-            - glossary_data: Dict of terms and definitions from SharePoint
-            - include_related: Include related terms in response
-            - complexity_level: Target explanation complexity (basic, intermediate, advanced)
+    Example:
+        Input: Clinical trial term with optional context and complexity level preference
+        Output: Detailed explanation with related terms, usage examples, and contextual analysis
     
-    Returns:
-        Dictionary with term explanation, related terms, and usage examples
+    Parameters:
+        term : str
+            The clinical trial term to explain
+        context : str, optional
+            Context where the term was encountered for enhanced explanation
+        glossary_data : dict
+            Dictionary of terms and definitions from SharePoint glossary
+        include_related : bool, optional
+            Whether to include related terms in response (default: True)
+        complexity_level : str, optional
+            Target explanation complexity: 'basic', 'intermediate', 'advanced'
     """
     try:
         term = input_data.get('term', '').strip()

@@ -9,17 +9,21 @@ from datetime import datetime
 
 def run(input_data: Dict) -> Dict:
     """
-    Answer questions about clinical protocol content using AI-powered analysis
+    Answers questions about clinical protocol content using AI-powered analysis and section parsing.
     
-    Args:
-        input_data: Dictionary containing:
-            - question: The question to be answered
-            - protocol_sections: Dict of protocol sections (title, content)
-            - context_window: Optional context window size (default 1000)
-            - include_references: Include section references in answers
+    Example:
+        Input: Natural language question about protocol content with structured protocol sections
+        Output: Natural language answer with confidence score and source section references
     
-    Returns:
-        Dictionary with answer, confidence score, and source references
+    Parameters:
+        question : str
+            The question to be answered about the protocol
+        protocol_sections : dict
+            Dictionary of protocol sections with titles and content
+        context_window : int
+            Context window size for analysis (optional, default 1000)
+        include_references : bool
+            Include section references in answers
     """
     try:
         question = input_data.get('question', '').strip()

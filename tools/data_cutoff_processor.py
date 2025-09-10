@@ -8,7 +8,19 @@ import math
 from datetime import datetime
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
-    """Run data cutoff processor analysis."""
+    """
+    Processes clinical trial data cutoff for database lock and preparation of final analysis dataset.
+    
+    Example:
+        Input: Patient records with specified cutoff date and processing rules
+        Output: Database lock status with record counts and analysis-ready dataset
+    
+    Parameters:
+        data : list
+            List of subject records to process
+        parameters : dict
+            Dictionary containing cutoff date and processing rules
+    """
     
     # Extract input parameters
     data = input_data.get('data', [])

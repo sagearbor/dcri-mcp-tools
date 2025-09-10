@@ -3,7 +3,23 @@ from collections import defaultdict
 
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
-    """Identifies process deviations from standard procedures."""
+    """
+    Identify deviations from standard operating procedures in clinical trials
+    
+    Example:
+        Input: Process execution data with actual steps performed versus standard procedure definitions
+        Output: Deviation analysis with severity classification and corrective action recommendations
+    
+    Parameters:
+        process_data : list
+            Actual process execution data with steps performed
+        standard_processes : dict
+            Standard operating procedures and expected steps
+        deviation_thresholds : dict
+            Severity thresholds for different types of deviations
+        audit_settings : dict
+            Configuration for deviation detection sensitivity
+    """
     try:
         process_data = input_data.get("process_data", [])
         if not process_data:

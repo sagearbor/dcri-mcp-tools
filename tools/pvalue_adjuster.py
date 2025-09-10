@@ -10,17 +10,23 @@ import math
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Adjust p-values for multiple comparisons.
+    Adjust p-values for multiple comparisons using statistical correction methods
     
-    Args:
-        input_data: Dictionary containing:
-            - pvalues: list of p-values
-            - method: str ('bonferroni', 'holm', 'hochberg', 'fdr_bh', 'fdr_by')
-            - alpha: float (significance level, default 0.05)
-            - labels: list of test labels (optional)
+    Example:
+        Input: List of p-values from multiple statistical tests with significance level and correction method
+        Output: Adjusted p-values with significance conclusions and correction details
     
-    Returns:
-        Dictionary with adjusted p-values and conclusions
+    Parameters:
+        pvalues : list
+            List of raw p-values from statistical tests
+        method : str
+            Correction method (bonferroni, holm, hochberg, fdr_bh, fdr_by)
+        alpha : float
+            Significance level threshold (default 0.05)
+        labels : list
+            Optional labels for each test being corrected
+        family_wise_error_rate : float
+            Desired family-wise error rate for correction
     """
     
     pvalues = input_data.get('pvalues', [])

@@ -11,19 +11,25 @@ import math
 
 def run(input_data: Dict) -> Dict:
     """
-    Predict patient dropout risk using machine learning-based analysis
+    Predict patient dropout risk using AI-powered analysis of engagement patterns
     
-    Args:
-        input_data: Dictionary containing:
-            - patient_data: Individual patient demographics and baseline characteristics
-            - engagement_data: Patient engagement metrics (visits, compliance, etc.)
-            - study_parameters: Study design parameters affecting retention
-            - historical_dropout_data: Historical dropout patterns from similar studies
-            - intervention_history: Previous retention interventions and their effectiveness
-            - prediction_timeframe: Timeframe for dropout predictions (days, weeks)
+    Example:
+        Input: Patient demographic data, visit attendance, compliance metrics, and study characteristics
+        Output: Risk scores, high-risk patient identification, and targeted retention intervention recommendations
     
-    Returns:
-        Dictionary with dropout risk predictions, risk factors, and intervention recommendations
+    Parameters:
+        patient_data : list
+            Individual patient demographics and baseline characteristics
+        engagement_data : list
+            Patient engagement metrics (visits, compliance, communication)
+        study_parameters : dict
+            Study design parameters affecting retention rates
+        historical_dropout_data : list
+            Historical dropout patterns from similar studies
+        intervention_history : list
+            Previous retention interventions and effectiveness
+        prediction_timeframe : int
+            Timeframe for dropout predictions in days
     """
     try:
         patient_data = input_data.get('patient_data', [])

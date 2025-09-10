@@ -14,23 +14,21 @@ from io import StringIO
 
 def run(input_data: dict) -> dict:
     """
-    Generates data queries based on logic checks and validation rules
+    Generates data queries based on logic checks and validation rules for clinical trial data management.
     
-    Args:
-        input_data: Dictionary containing:
-            - data: CSV data as string to check
-            - query_rules: Query generation rules and logic checks
-            - severity_levels: Query severity configuration
-            - auto_close_rules: Rules for automatic query closure
+    Example:
+        Input: CSV data with subject records and query generation rules for missing or invalid data
+        Output: List of data queries with severity levels and follow-up instructions
     
-    Returns:
-        Dictionary containing:
-            - success: Boolean indicating if query generation succeeded
-            - queries: List of generated queries
-            - errors: List of processing errors
-            - warnings: List of processing warnings
-            - statistics: Query generation statistics
-            - summary: Query summary by type and severity
+    Parameters:
+        data : str
+            CSV data content to check for query generation
+        query_rules : dict
+            Query generation rules and logic checks to apply
+        severity_levels : dict
+            Configuration for query severity classification
+        auto_close_rules : dict
+            Rules for automatic query closure conditions
     """
     try:
         data = input_data.get('data', '')

@@ -9,18 +9,23 @@ import statistics
 
 def run(input_data: Dict) -> Dict:
     """
-    Predict enrollment using machine learning-based forecasting
+    Predicts clinical trial enrollment using machine learning-based forecasting models and historical data.
     
-    Args:
-        input_data: Dictionary containing:
-            - historical_data: List of historical enrollment data points
-            - sites: List of site information with current status
-            - target_enrollment: Total target enrollment
-            - forecast_months: Number of months to forecast ahead
-            - seasonal_factors: Optional seasonal adjustment factors
+    Example:
+        Input: Historical enrollment data, site information, and target enrollment goals
+        Output: ML-based enrollment prediction with completion timeline and site activation recommendations
     
-    Returns:
-        Dictionary with enrollment predictions and recommendations
+    Parameters:
+        historical_data : list
+            Historical enrollment data points with dates and cumulative counts
+        sites : list
+            Site information including enrollment rates and current status
+        target_enrollment : int
+            Total target enrollment for the study
+        forecast_months : int
+            Number of months ahead to forecast
+        seasonal_factors : dict
+            Optional seasonal adjustment factors for predictions
     """
     try:
         historical_data = input_data.get('historical_data', [])

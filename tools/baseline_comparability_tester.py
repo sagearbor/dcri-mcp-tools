@@ -8,7 +8,19 @@ import math
 from datetime import datetime
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
-    """Run baseline comparability tester analysis."""
+    """
+    Tests baseline comparability between treatment arms using standardized differences and statistical tests.
+    
+    Example:
+        Input: Patient baseline data with treatment arm assignments and demographic variables
+        Output: Statistical comparison showing which variables are balanced between treatment groups
+    
+    Parameters:
+        data : list
+            List of patient baseline data records with treatment assignments
+        parameters : dict
+            Analysis parameters including variables to test for balance
+    """
     
     # Extract input parameters
     data = input_data.get('data', [])

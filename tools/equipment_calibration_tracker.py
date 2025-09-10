@@ -8,18 +8,23 @@ from datetime import datetime, timedelta
 
 def run(input_data: Dict) -> Dict:
     """
-    Track equipment calibration status and generate alerts for expiring calibrations
+    Monitors equipment calibration status and generates alerts for expiring calibrations across clinical sites.
     
-    Args:
-        input_data: Dictionary containing:
-            - equipment_inventory: List of site equipment with calibration data
-            - calibration_records: Historical calibration records
-            - equipment_types: Equipment type definitions and requirements
-            - sites: Site information for context
-            - alert_thresholds: Days before expiry for different alert levels
+    Example:
+        Input: Equipment inventory with calibration dates and alert threshold settings
+        Output: Calibration status dashboard with expiration alerts and compliance recommendations
     
-    Returns:
-        Dictionary with calibration tracking and alert information
+    Parameters:
+        equipment_inventory : list
+            List of site equipment with calibration status data
+        calibration_records : list
+            Historical equipment calibration records
+        equipment_types : dict
+            Equipment type definitions and calibration requirements
+        sites : list
+            Site information for tracking context
+        alert_thresholds : dict
+            Days before expiry for different alert severity levels
     """
     try:
         equipment_inventory = input_data.get('equipment_inventory', [])

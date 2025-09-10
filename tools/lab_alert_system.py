@@ -117,28 +117,19 @@ def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
     Flags critical lab values and generates alerts based on CTCAE criteria.
     
-    Args:
-        input_data: Dictionary containing:
-            - lab_results: List of lab result dictionaries with:
-                - subject_id: Subject identifier
-                - lab_test: Test name (e.g., "hemoglobin", "alt")
-                - value: Numeric result value
-                - unit: Unit of measurement
-                - date: Collection date (YYYY-MM-DD)
-                - sex: Patient sex (for sex-specific ranges)
-                - baseline_value: Optional baseline value
-            - alert_threshold: Grade threshold for alerts (default: 3)
-            - include_trends: Flag to analyze trends (default: True)
-            - hy_law_check: Check for Hy's Law (default: True)
+    Example:
+        Input: Laboratory results with values, units, and patient demographics
+        Output: CTCAE-graded alerts with trend analysis, Hy's Law screening, and clinical recommendations
     
-    Returns:
-        Dictionary containing:
-            - alerts: List of critical lab alerts
-            - graded_results: All results with CTCAE grades
-            - trends: Trend analysis if requested
-            - hy_law_cases: Potential Hy's Law cases
-            - summary: Alert summary statistics
-            - recommendations: Clinical recommendations
+    Parameters:
+        lab_results : list
+            List of lab result dictionaries with subject_id, lab_test, value, unit, date, and sex
+        alert_threshold : int, optional
+            CTCAE grade threshold for generating alerts (default: 3)
+        include_trends : bool, optional
+            Whether to perform trend analysis on serial measurements (default: True)
+        hy_law_check : bool, optional
+            Whether to screen for potential Hy's Law cases (default: True)
     """
     try:
         lab_results = input_data.get("lab_results", [])

@@ -13,20 +13,19 @@ from io import StringIO
 
 def run(input_data: dict) -> dict:
     """
-    Validates CSV data against a JSON schema definition
+    Validates CSV clinical trial data against JSON schema definitions to ensure data integrity.
     
-    Args:
-        input_data: Dictionary containing:
-            - csv_data: CSV data as string
-            - schema: JSON schema definition
-            - strict_mode: Boolean for strict validation (default: True)
+    Example:
+        Input: CSV data with subject records and corresponding JSON schema with field definitions
+        Output: Validation report showing conformance status and detailed error descriptions
     
-    Returns:
-        Dictionary containing:
-            - valid: Boolean indicating if data is valid
-            - errors: List of validation errors
-            - warnings: List of validation warnings
-            - statistics: Validation statistics
+    Parameters:
+        csv_data : str
+            CSV data content as string
+        schema : dict
+            JSON schema definition for data validation
+        strict_mode : bool
+            Enable strict validation mode (optional, default True)
     """
     try:
         csv_data = input_data.get('csv_data', '')

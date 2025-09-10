@@ -14,21 +14,19 @@ from io import StringIO
 
 def run(input_data: dict) -> dict:
     """
-    Validates EDC export data against study specifications
+    Validates EDC export data against study specifications to ensure protocol compliance and data completeness.
     
-    Args:
-        input_data: Dictionary containing:
-            - edc_data: CSV data as string from EDC export
-            - study_spec: Study specification with protocol requirements
-            - validation_level: 'basic', 'standard', or 'strict' (default: 'standard')
+    Example:
+        Input: EDC export data with subject records and corresponding study specification requirements
+        Output: Validation report with protocol compliance metrics and deviation identification
     
-    Returns:
-        Dictionary containing:
-            - valid: Boolean indicating if data meets specifications
-            - errors: List of validation errors
-            - warnings: List of validation warnings
-            - statistics: Validation statistics
-            - protocol_compliance: Protocol compliance metrics
+    Parameters:
+        edc_data : str
+            CSV data string from EDC export
+        study_spec : dict
+            Study specification with protocol requirements and criteria
+        validation_level : str
+            Validation intensity ('basic', 'standard', 'strict', default 'standard')
     """
     try:
         edc_data = input_data.get('edc_data', '')

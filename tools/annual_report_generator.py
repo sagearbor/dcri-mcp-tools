@@ -5,29 +5,29 @@ from collections import defaultdict
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Generate IND (Investigational New Drug) annual reports for regulatory submission.
-    Compiles safety data, enrollment metrics, and study progress for FDA annual reporting.
+    Generates IND annual reports for FDA regulatory submission with comprehensive safety and enrollment data.
     
-    Args:
-        input_data: Dict containing:
-            - ind_number (str): IND application number
-            - reporting_period_start (str): Start date of reporting period (YYYY-MM-DD)
-            - reporting_period_end (str): End date of reporting period (YYYY-MM-DD)
-            - studies (list): List of studies under this IND
-            - safety_data (dict): Aggregate safety information
-            - drug_information (dict): Drug substance and manufacturing info
-            - sponsor_information (dict): Sponsor contact details
-            - include_appendices (bool, optional): Include detailed appendices
+    Example:
+        Input: IND number, reporting period dates, studies data with safety metrics
+        Output: Complete FDA annual report with safety summary, enrollment data, and submission checklist
     
-    Returns:
-        Dict containing:
-            - annual_report (str): Formatted annual report document
-            - executive_summary (str): High-level summary for regulators
-            - safety_summary (dict): Compiled safety statistics
-            - enrollment_summary (dict): Subject enrollment across studies
-            - regulatory_compliance (dict): Compliance status summary
-            - submission_checklist (list): Required submission components
-            - recommendations (list): Recommendations for next reporting period
+    Parameters:
+        ind_number : str
+            IND application number
+        reporting_period_start : str
+            Start date of reporting period (YYYY-MM-DD)
+        reporting_period_end : str
+            End date of reporting period (YYYY-MM-DD)
+        studies : list
+            List of studies under this IND
+        safety_data : dict
+            Aggregate safety information
+        drug_information : dict
+            Drug substance and manufacturing info
+        sponsor_information : dict
+            Sponsor contact details
+        include_appendices : bool
+            Include detailed appendices (optional)
     """
     ind_number = input_data.get('ind_number', '')
     period_start = input_data.get('reporting_period_start', '')

@@ -10,16 +10,19 @@ from typing import Dict, Any, List, Tuple
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Validate inclusion/exclusion criteria logic.
+    Validate inclusion/exclusion criteria logic for consistency and conflicts.
     
-    Args:
-        input_data: Dictionary containing:
-            - inclusion_criteria: list of criteria strings
-            - exclusion_criteria: list of criteria strings
-            - test_cases: list of patient profiles to test (optional)
+    Example:
+        Input: Lists of inclusion and exclusion criteria with optional patient test cases
+        Output: Validation results showing conflicts, overlaps, gaps, and eligibility testing outcomes
     
-    Returns:
-        Dictionary containing validation results
+    Parameters:
+        inclusion_criteria : list
+            List of inclusion criteria strings
+        exclusion_criteria : list
+            List of exclusion criteria strings
+        test_cases : list, optional
+            Patient profiles to test against the criteria
     """
     
     inclusion = input_data.get('inclusion_criteria', [])

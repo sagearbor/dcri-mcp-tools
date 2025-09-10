@@ -171,11 +171,16 @@ def add_demo_route(app):
     def tool_demo(tool_name):
         """Interactive demo page for a specific tool"""
         
-        # Get tool description
+        # Get tool description from run function's docstring
         try:
             tool_module = __import__(f"tools.{tool_name}", fromlist=[''])
-            description = tool_module.__doc__ or "No description available"
-            description = description.strip()
+            # First try to get the run function's docstring (which has examples)
+            if hasattr(tool_module, 'run') and tool_module.run.__doc__:
+                description = tool_module.run.__doc__.strip()
+            else:
+                # Fallback to module docstring
+                description = tool_module.__doc__ or "No description available"
+                description = description.strip()
         except:
             description = "Tool documentation not available"
         

@@ -167,7 +167,7 @@ def run(input_data: Dict) -> Dict:
                                 'subject': subject,
                                 'days_overdue': days_overdue,
                                 'priority': priority,
-                                'escalation_level': self._determine_escalation_level(days_overdue, priority, escalation_rules)
+                                'escalation_level': _determine_escalation_level(days_overdue, priority, escalation_rules)
                             }
                             site_comm['escalations'].append(escalation_event)
                             communication_analysis['escalation_events'].append(escalation_event)
@@ -266,7 +266,7 @@ def run(input_data: Dict) -> Dict:
                 recommendations.append(f"Site {site_id}: {site_data['outstanding_responses']} outstanding responses - immediate follow-up needed")
         
         # Communication trends (if enough historical data)
-        communication_trends = self._analyze_communication_trends(relevant_communications)
+        communication_trends = _analyze_communication_trends(relevant_communications)
         
         return {
             'success': True,

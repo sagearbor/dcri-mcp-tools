@@ -11,21 +11,29 @@ from datetime import datetime
 
 def run(input_data: Dict) -> Dict:
     """
-    Manage and check study glossaries and terminology.
+    Manage and maintain study glossaries and terminology consistency across clinical trial documents.
     
-    Args:
-        input_data: Dictionary containing:
-            - action: 'create', 'add_terms', 'validate_document', 'search', 'export', 'merge'
-            - glossary: Current glossary dict or list of terms
-            - terms: New terms to add (list of dicts or single dict)
-            - document_text: Text to validate against glossary
-            - search_query: Term to search for
-            - validation_options: Dict with validation settings
-            - merge_glossaries: List of glossaries to merge
-            - export_format: 'json', 'csv', 'html', 'markdown'
+    Example:
+        Input: Glossary management action with terms, documents, or search queries
+        Output: Processed glossary data with validation results, search results, or export formats
     
-    Returns:
-        Dictionary with glossary management results
+    Parameters:
+        action : str
+            Action to perform: 'create', 'add_terms', 'validate_document', 'search', 'export', 'merge'
+        glossary : dict, optional
+            Current glossary dictionary or list of terms
+        terms : list or dict, optional
+            New terms to add to glossary
+        document_text : str, optional
+            Text to validate against glossary for terminology consistency
+        search_query : str, optional
+            Term to search for within the glossary
+        validation_options : dict, optional
+            Settings for document validation (case sensitivity, etc.)
+        merge_glossaries : list, optional
+            List of glossaries to merge together
+        export_format : str, optional
+            Export format: 'json', 'csv', 'html', 'markdown'
     """
     try:
         action = input_data.get('action', '').lower()
@@ -47,17 +55,35 @@ def run(input_data: Dict) -> Dict:
         result = {'success': True, 'action': action}
         
         if action == 'create':
-            result.update(_create_glossary(terms))
+            sub_result = _create_glossary(terms)
+            result.update(sub_result)
+            if 'error' in sub_result:
+                result['success'] = False
         elif action == 'add_terms':
-            result.update(_add_terms_to_glossary(glossary, terms))
+            sub_result = _add_terms_to_glossary(glossary, terms)
+            result.update(sub_result)
+            if 'error' in sub_result:
+                result['success'] = False
         elif action == 'validate_document':
-            result.update(_validate_document_terminology(document_text, glossary, validation_options))
+            sub_result = _validate_document_terminology(document_text, glossary, validation_options)
+            result.update(sub_result)
+            if 'error' in sub_result:
+                result['success'] = False
         elif action == 'search':
-            result.update(_search_glossary(glossary, search_query))
+            sub_result = _search_glossary(glossary, search_query)
+            result.update(sub_result)
+            if 'error' in sub_result:
+                result['success'] = False
         elif action == 'export':
-            result.update(_export_glossary(glossary, export_format))
+            sub_result = _export_glossary(glossary, export_format)
+            result.update(sub_result)
+            if 'error' in sub_result:
+                result['success'] = False
         elif action == 'merge':
-            result.update(_merge_glossaries(merge_glossaries))
+            sub_result = _merge_glossaries(merge_glossaries)
+            result.update(sub_result)
+            if 'error' in sub_result:
+                result['success'] = False
         else:
             return {
                 'success': False,

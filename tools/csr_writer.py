@@ -10,19 +10,25 @@ from collections import Counter
 
 def run(input_data: Dict) -> Dict:
     """
-    Generate clinical study report sections with AI assistance
+    Generates clinical study report sections with AI assistance for regulatory submissions.
     
-    Args:
-        input_data: Dictionary containing:
-            - section_type: Type of CSR section to generate
-            - study_data: Study information and results data
-            - template_style: Style/format template (ich_e3, company_specific)
-            - target_audience: Target audience (regulators, investigators, sponsors)
-            - include_references: Include literature references
-            - compliance_requirements: Regulatory compliance requirements
+    Example:
+        Input: Section type, study data, and template requirements for CSR generation
+        Output: Complete regulatory-compliant section with statistical results and supporting documentation
     
-    Returns:
-        Dictionary with generated CSR section content, supporting data, and quality checks
+    Parameters:
+        section_type : str
+            Type of CSR section to generate (efficacy, safety, demographics)
+        study_data : dict
+            Study information and analysis results data
+        template_style : str
+            Style template (ich_e3, company_specific)
+        target_audience : str
+            Target audience (regulators, investigators, sponsors)
+        include_references : bool
+            Include literature references in output
+        compliance_requirements : dict
+            Regulatory compliance requirements
     """
     try:
         section_type = input_data.get('section_type', 'summary')

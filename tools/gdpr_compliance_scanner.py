@@ -6,27 +6,26 @@ import re
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
     Identify GDPR compliance issues in clinical data systems and processes.
-    Scans for personal data handling, consent management, and data protection measures.
     
-    Args:
-        input_data: Dict containing:
-            - data_sources (list): List of data sources/systems to scan
-            - personal_data_inventory (dict): Inventory of personal data processed
-            - consent_records (list): Subject consent and withdrawal records
-            - data_processing_activities (list): List of processing activities
-            - privacy_measures (dict): Technical and organizational measures
-            - cross_border_transfers (list): International data transfers
-            - check_retention (bool, optional): Check data retention compliance
+    Example:
+        Input: Data sources, personal data inventory, consent records, and privacy measures for a clinical trial
+        Output: GDPR compliance assessment with violations, risk analysis, and remediation recommendations
     
-    Returns:
-        Dict containing:
-            - compliance_status (str): 'compliant', 'non_compliant', 'needs_review'
-            - gdpr_assessment (dict): Assessment against GDPR principles
-            - privacy_violations (list): GDPR violations identified
-            - data_subject_rights (dict): Data subject rights compliance status
-            - risk_assessment (dict): Privacy risk analysis
-            - recommendations (list): Steps to achieve GDPR compliance
-            - compliance_score (float): Overall GDPR compliance percentage
+    Parameters:
+        data_sources : list
+            List of data sources/systems to scan for compliance
+        personal_data_inventory : dict
+            Inventory of personal data processed in the study
+        consent_records : list
+            Subject consent and withdrawal records
+        data_processing_activities : list
+            List of data processing activities and their purposes
+        privacy_measures : dict
+            Technical and organizational privacy measures implemented
+        cross_border_transfers : list
+            International data transfers and safeguards
+        check_retention : bool, optional
+            Whether to check data retention compliance (default: True)
     """
     data_sources = input_data.get('data_sources', [])
     personal_data_inventory = input_data.get('personal_data_inventory', {})

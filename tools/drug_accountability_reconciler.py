@@ -8,19 +8,25 @@ from datetime import datetime, timedelta
 
 def run(input_data: Dict) -> Dict:
     """
-    Reconcile drug supplies and track accountability across sites
+    Reconciles drug supplies and tracks accountability across clinical trial sites for regulatory compliance.
     
-    Args:
-        input_data: Dictionary containing:
-            - drug_inventory: Current drug inventory at sites
-            - drug_shipments: Drug shipment records
-            - drug_dispensing: Drug dispensing records
-            - drug_returns: Drug return records
-            - study_drug_info: Study drug specifications
-            - reconciliation_period: Time period for reconciliation
+    Example:
+        Input: Drug inventory, shipment records, and dispensing logs from multiple sites
+        Output: Accountability reconciliation with discrepancy alerts and compliance status
     
-    Returns:
-        Dictionary with drug accountability reconciliation results
+    Parameters:
+        drug_inventory : list
+            Current drug inventory status at each site
+        drug_shipments : list
+            Drug shipment records and delivery confirmations
+        drug_dispensing : list
+            Patient drug dispensing records
+        drug_returns : list
+            Drug return and destruction records
+        study_drug_info : dict
+            Study drug specifications and requirements
+        reconciliation_period : str
+            Time period for reconciliation analysis
     """
     try:
         drug_inventory = input_data.get('drug_inventory', [])

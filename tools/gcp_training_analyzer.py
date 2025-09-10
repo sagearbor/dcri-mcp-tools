@@ -6,18 +6,17 @@ def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
     Identifies GCP training gaps and needs for clinical trial staff.
     
-    Args:
-        input_data: Dict containing:
-            - staff_data (list): List of staff members with training records
-            - training_requirements (dict): Required training by role
-            - validity_period_months (int): Training validity period (default: 24)
+    Example:
+        Input: Staff data with training records, role requirements, and validity periods
+        Output: Training gap analysis with compliance status, expiring certifications, and recommendations
     
-    Returns:
-        Dict containing:
-            - training_gaps (list): Staff with missing or expired training
-            - compliance_status (dict): Compliance status by staff
-            - expiring_soon (list): Training expiring in next 60 days
-            - summary (dict): Overall compliance metrics
+    Parameters:
+        staff_data : list
+            List of staff members with training records
+        training_requirements : dict
+            Required training by role (PI, CRC, CRA, etc.)
+        validity_period_months : int
+            Training validity period in months (default: 24)
     """
     try:
         staff_data = input_data.get("staff_data", [])

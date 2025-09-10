@@ -133,31 +133,21 @@ BRAND_TO_GENERIC = {
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Maps concomitant medications to WHO Drug Dictionary codes.
+    Maps concomitant medications to WHO Drug Dictionary codes with ATC classification and interaction checking.
     
-    Args:
-        input_data: Dictionary containing:
-            - medications: List of medication dictionaries with:
-                - verbatim_name: The verbatim medication name reported
-                - dose: Optional dose information
-                - unit: Optional dose unit
-                - frequency: Optional frequency
-                - route: Optional route of administration
-                - indication: Optional indication for use
-                - start_date: Optional start date (YYYY-MM-DD)
-                - stop_date: Optional stop date (YYYY-MM-DD)
-                - subject_id: Optional subject identifier
-            - coding_version: Optional WHO Drug version (default: "2024Q1")
-            - match_threshold: Optional similarity threshold (0-1, default: 0.7)
-            - include_interactions: Optional flag to check interactions (default: False)
+    Example:
+        Input: List of medications with verbatim names, doses, and administration details
+        Output: Coded medications with WHO Drug Dictionary codes, ATC classifications, and interaction warnings
     
-    Returns:
-        Dictionary containing:
-            - coded_medications: List of coded medications
-            - summary: Coding summary statistics
-            - uncoded_medications: List of medications that couldn't be coded
-            - potential_interactions: List of potential drug interactions (if requested)
-            - warnings: Any warnings or issues
+    Parameters:
+        medications : list
+            List of medication dictionaries with verbatim names and details
+        coding_version : str
+            WHO Drug Dictionary version (optional, default "2024Q1")
+        match_threshold : float
+            Similarity threshold for matching (0-1, default 0.7)
+        include_interactions : bool
+            Flag to check for drug interactions (optional, default False)
     """
     try:
         medications = input_data.get("medications", [])

@@ -10,16 +10,19 @@ import math
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Generate forest plot data.
+    Generates forest plot data for meta-analysis and subgroup analysis visualization.
     
-    Args:
-        input_data: Dictionary containing:
-            - studies: list of study data with effect sizes and CIs
-            - measure: str ('OR', 'RR', 'HR', 'MD')
-            - model: str ('fixed', 'random')
+    Example:
+        Input: List of studies with effect sizes and confidence intervals for meta-analysis
+        Output: Forest plot data with pooled estimates, heterogeneity statistics, and visualization coordinates
     
-    Returns:
-        Dictionary with forest plot data and statistics
+    Parameters:
+        studies : list
+            List of study data with effect sizes and confidence intervals
+        measure : str
+            Effect measure type ('OR', 'RR', 'HR', 'MD')
+        model : str
+            Statistical model for pooling ('fixed', 'random')
     """
     
     studies = input_data.get('studies', [])

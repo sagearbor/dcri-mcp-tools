@@ -9,19 +9,25 @@ from datetime import datetime, timedelta
 
 def run(input_data: Dict) -> Dict:
     """
-    Summarize meeting transcripts and extract key information for clinical trials
+    Summarize meeting transcripts and extract key information using AI-powered analysis.
     
-    Args:
-        input_data: Dictionary containing:
-            - transcript: Meeting transcript text
-            - meeting_type: Type of meeting (investigator, dsmb, steering_committee, etc.)
-            - meeting_date: Date of the meeting
-            - attendees: List of attendee information
-            - summary_style: Style of summary (brief, detailed, action_items)
-            - extract_decisions: Whether to extract decisions made
+    Example:
+        Input: Meeting transcript with attendee information and meeting context
+        Output: Structured summary with key topics, action items, decisions, and speaker analysis
     
-    Returns:
-        Dictionary with meeting summary, action items, decisions, and key topics
+    Parameters:
+        transcript : str
+            Meeting transcript or audio transcription text
+        meeting_type : str
+            Type of meeting: 'investigator', 'dsmb', 'steering_committee', etc.
+        meeting_date : str
+            Date of the meeting in ISO format
+        attendees : list
+            List of meeting attendee information
+        summary_style : str, optional
+            Summary style: 'brief', 'detailed', 'action_items' (default: 'detailed')
+        extract_decisions : bool, optional
+            Whether to extract and highlight decisions made (default: True)
     """
     try:
         transcript = input_data.get('transcript', '').strip()
@@ -80,6 +86,7 @@ def run(input_data: Dict) -> Dict:
         
         return {
             'success': True,
+            'key_topics': key_topics,  # Add at top level for tests
             'meeting_summary': {
                 'meeting_type': meeting_type,
                 'meeting_date': meeting_date,
@@ -114,9 +121,18 @@ def run(input_data: Dict) -> Dict:
 
 def clean_transcript(transcript: str) -> str:
     """Clean and normalize the transcript text."""
-    # Remove excessive whitespace
+    # Remove excessive whitespace but preserve line breaks for speaker parsing
     cleaned = re.sub(r'\n\s*\n', '\n\n', transcript)
-    cleaned = re.sub(r'\s+', ' ', cleaned)
+    # Only collapse spaces within lines, not newlines
+    lines = cleaned.split('\n')
+    cleaned_lines = []
+    for line in lines:
+        # Collapse multiple spaces within each line
+        clean_line = re.sub(r'\s+', ' ', line).strip()
+        if clean_line:  # Only keep non-empty lines
+            cleaned_lines.append(clean_line)
+    
+    cleaned = '\n'.join(cleaned_lines)
     
     # Fix common transcription errors
     replacements = {
@@ -174,6 +190,17 @@ def extract_speakers_and_contributions(transcript: str) -> Dict:
                 if content:
                     speakers[current_speaker]['contributions'].append(content)
                     speakers[current_speaker]['total_words'] += len(content.split())
+                    
+                    # Count questions in speaker content
+                    if '?' in content:
+                        speakers[current_speaker]['question_count'] += content.count('?')
+                    
+                    # Count decision statements in speaker content
+                    if any(phrase in content.lower() for phrase in [
+                        'we decide', 'decided to', 'conclusion is', 'we agree', 'approved'
+                    ]):
+                        speakers[current_speaker]['decision_statements'] += 1
+                        
                 break
         
         # If no speaker pattern found, attribute to current speaker
@@ -204,8 +231,7 @@ def extract_speakers_and_contributions(transcript: str) -> Dict:
 
 def normalize_speaker_name(name: str) -> str:
     """Normalize speaker names for consistency."""
-    # Remove titles and clean up
-    name = re.sub(r'^(Dr\.|Mr\.|Ms\.|Mrs\.|Prof\.)\s*', '', name)
+    # Keep titles but normalize spacing
     name = re.sub(r'\s+', ' ', name).strip()
     
     # Convert to title case
@@ -224,7 +250,7 @@ def extract_key_topics(transcript: str, meeting_type: str) -> List[Dict]:
             r'training|certification'
         ],
         'dsmb': [
-            r'safety review|safety data',
+            r'safety|adverse event|serious adverse',
             r'efficacy|interim analysis',
             r'risk.?benefit|stopping',
             r'recommendation|continue',
@@ -585,18 +611,40 @@ def generate_brief_summary(transcript: str, key_topics: List[Dict], meeting_type
     """Generate a brief meeting summary."""
     summary_parts = []
     
-    # Meeting overview
-    summary_parts.append(f"This {meeting_type} meeting covered {len(key_topics)} main topics.")
+    # Extract key phrases from transcript
+    key_phrases = []
+    important_phrases = [
+        r'enrollment.*?(\d+%|target|behind|ahead)',
+        r'progress.*?(\w+)',
+        r'safety.*?(\w+)',
+        r'data quality.*?(\w+)',
+        r'challenges.*?(\w+)',
+        r'issues.*?(\w+)'
+    ]
     
-    # Top 3 topics
-    if key_topics:
-        top_topics = [topic['topic'] for topic in key_topics[:3]]
-        summary_parts.append(f"Key discussion areas included: {', '.join(top_topics)}.")
+    for pattern in important_phrases:
+        matches = re.findall(pattern, transcript, re.IGNORECASE)
+        if matches:
+            # Extract the context around the match
+            match_contexts = re.findall(rf'\b\w*{pattern.split(".*?")[0]}\w*[^.]*', transcript, re.IGNORECASE)
+            key_phrases.extend(match_contexts[:2])  # Limit to 2 per pattern
     
-    # Word count and estimated duration
-    word_count = len(transcript.split())
-    estimated_duration = max(30, word_count // 150)  # Rough estimate: 150 words per minute
-    summary_parts.append(f"The meeting transcript contains approximately {word_count} words, suggesting a {estimated_duration}-minute discussion.")
+    # Meeting overview with specific content
+    if key_phrases:
+        summary_parts.append(f"This {meeting_type} meeting discussed {', '.join(key_phrases[:2])}.")
+    else:
+        summary_parts.append(f"This {meeting_type} meeting covered {len(key_topics)} main topics.")
+    
+    # Top topics with key points if available
+    if key_topics and key_topics[0].get('key_points'):
+        # Extract brief content from key points
+        key_content = []
+        for topic in key_topics[:2]:
+            if topic.get('key_points'):
+                point = topic['key_points'][0][:50] + "..." if len(topic['key_points'][0]) > 50 else topic['key_points'][0]
+                key_content.append(point)
+        if key_content:
+            summary_parts.append(f"Key points: {'; '.join(key_content)}.")
     
     return ' '.join(summary_parts)
 

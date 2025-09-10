@@ -5,19 +5,19 @@ import hashlib
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Remove PII (Personally Identifiable Information) from clinical documents.
+    Removes personally identifiable information (PII) from clinical documents for safe data sharing.
     
-    Args:
-        input_data: Dict containing:
-            - text (str): Document text to de-identify
-            - mode (str): 'full' for complete removal, 'hash' for replacement with hash
-            - custom_patterns (list, optional): Additional regex patterns to match
+    Example:
+        Input: Clinical document text containing patient names, dates, and institutional information
+        Output: De-identified text with PII removed or replaced with placeholders
     
-    Returns:
-        Dict containing:
-            - deidentified_text (str): Text with PII removed
-            - items_removed (list): List of types of PII found and removed
-            - statistics (dict): Count of each type of PII removed
+    Parameters:
+        text : str
+            Document text content to de-identify
+        mode : str
+            De-identification mode ('full' for removal, 'hash' for replacement)
+        custom_patterns : list
+            Additional regex patterns to match (optional)
     """
     text = input_data.get('text', '')
     mode = input_data.get('mode', 'full')

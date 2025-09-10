@@ -10,21 +10,29 @@ from typing import Dict, List, Optional
 
 def run(input_data: Dict) -> Dict:
     """
-    Generate study email templates based on type and parameters.
+    Generates customized email templates for clinical study communications with participants and sites.
     
-    Args:
-        input_data: Dictionary containing:
-            - template_type: 'recruitment', 'reminder', 'update', 'welcome', 'followup'
-            - study_name: Name of the study
-            - study_id: Study identifier
-            - pi_name: Principal investigator name
-            - contact_info: Contact information dict
-            - custom_fields: Dict of custom field replacements
-            - language: Language code (default: 'en')
-            - urgency: 'low', 'medium', 'high' (affects tone)
+    Example:
+        Input: Template type, study details, investigator information, and urgency level
+        Output: Professional email template with study-specific content and appropriate tone
     
-    Returns:
-        Dictionary with generated template and metadata
+    Parameters:
+        template_type : str
+            Email type ('recruitment', 'reminder', 'update', 'welcome', 'followup')
+        study_name : str
+            Official name of the clinical study
+        study_id : str
+            Unique study identifier
+        pi_name : str
+            Principal investigator name
+        contact_info : dict
+            Study contact information including phone and email
+        custom_fields : dict
+            Custom field replacements for template personalization
+        language : str
+            Language code for template (default 'en')
+        urgency : str
+            Priority level affecting tone ('low', 'medium', 'high')
     """
     try:
         template_type = input_data.get('template_type', '').lower()

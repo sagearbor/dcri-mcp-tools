@@ -14,22 +14,19 @@ import statistics as stats
 
 def run(input_data: dict) -> dict:
     """
-    Analyzes data trends and identifies unusual patterns
+    Analyzes clinical trial data trends and identifies unusual patterns or statistical anomalies.
     
-    Args:
-        input_data: Dictionary containing:
-            - data: CSV data to analyze
-            - analysis_fields: List of fields to analyze for trends
-            - sensitivity: 'low', 'medium', or 'high' (default: 'medium')
+    Example:
+        Input: CSV data with subject visits and measurements to analyze for trends
+        Output: Trend analysis with outlier detection, pattern identification, and statistical alerts
     
-    Returns:
-        Dictionary containing:
-            - success: Boolean indicating if analysis succeeded
-            - trend_analysis: Detailed trend analysis results
-            - anomalies_detected: List of detected anomalies
-            - outliers: Statistical outliers identified
-            - patterns: Identified patterns in the data
-            - statistics: Trend analysis statistics
+    Parameters:
+        data : str
+            CSV data content to analyze
+        analysis_fields : list
+            List of data fields to analyze for trends
+        sensitivity : str
+            Detection sensitivity level ('low', 'medium', 'high', default 'medium')
     """
     try:
         data = input_data.get('data', '')

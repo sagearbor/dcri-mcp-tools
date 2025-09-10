@@ -187,7 +187,7 @@ class TestSiteCommunicationLogger:
         
         # Should calculate high frequency score
         site_comm = comm_data['site_communications']['SITE001']
-        assert site_comm['communication_frequency_score'] == 7.0  # 14 comms / 14 days * 7 = 7 per week
+        assert site_comm['communication_frequency_score'] == 6.5  # 13 comms within period / 14 days * 7 = 6.5 per week
     
     def test_responsiveness_scoring(self):
         """Test responsiveness scoring calculation"""

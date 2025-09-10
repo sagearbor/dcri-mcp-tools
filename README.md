@@ -129,6 +129,53 @@ http://127.0.0.1:8210/run_tool/test_echo
 }
 ```
 
+### Interactive Demo Pages
+
+Each tool has an interactive demo page accessible at `/demo/<tool_name>`. For example:
+- http://127.0.0.1:8210/demo/faq_generator
+- http://127.0.0.1:8210/demo/patient_retention_predictor
+
+The demo pages feature:
+- Clear tool description
+- Collapsible Example section showing input/output
+- Collapsible Parameters section with detailed documentation
+- Interactive JSON editor with example inputs
+- Real-time tool execution and output display
+
+## Developing New Tools
+
+### Tool Documentation Format
+
+All tools must follow this standardized docstring format:
+
+```python
+def run(input_data: Dict) -> Dict:
+    """
+    [One line description of what the tool does]
+    
+    Example:
+        Input: [Natural language description of the input data]
+        Output: [Natural language description of what gets returned]
+    
+    Parameters:
+        param_name : type
+            Description of parameter
+        param_name2 : type, optional
+            Description of optional parameter (default: value)
+    """
+```
+
+This format ensures:
+- Consistency across all tools
+- Proper display on demo pages with collapsible sections
+- Clear documentation for developers and users
+- Natural language examples instead of raw JSON
+
+After creating a new tool:
+1. Add the tool file to the `tools/` directory
+2. Create corresponding tests in `tests/test_<tool_name>.py`
+3. Update `checklist.md` with [ExAdded2] marker once documented
+
 ## Deployment
 
 This application is designed to be deployed as a Docker container. The `Dockerfile` handles the setup, and the `gunicorn` web server is used for production.

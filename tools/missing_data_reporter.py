@@ -15,23 +15,21 @@ import statistics as stats
 
 def run(input_data: dict) -> dict:
     """
-    Analyzes missing data patterns in clinical trial data
+    Identifies and analyzes missing data patterns in clinical trial datasets.
     
-    Args:
-        input_data: Dictionary containing:
-            - data: CSV data as string to analyze
-            - required_fields: List of fields that are required
-            - visit_schedule: Optional visit schedule for completeness analysis
-            - analysis_level: 'basic', 'detailed', or 'comprehensive' (default: 'detailed')
+    Example:
+        Input: CSV clinical trial data with required fields and visit schedule information
+        Output: Missing data analysis with patterns by subject, visit, field, and quality recommendations
     
-    Returns:
-        Dictionary containing:
-            - success: Boolean indicating if analysis succeeded
-            - missing_data_report: Comprehensive missing data analysis
-            - errors: List of processing errors
-            - warnings: List of processing warnings
-            - statistics: Missing data statistics
-            - recommendations: Data quality improvement recommendations
+    Parameters:
+        data : str
+            CSV formatted clinical trial data to analyze
+        required_fields : list
+            List of field names that are required and should not be missing
+        visit_schedule : list, optional
+            Expected visit schedule for completeness analysis
+        analysis_level : str, optional
+            Analysis depth: 'basic', 'detailed', or 'comprehensive' (default: 'detailed')
     """
     try:
         data = input_data.get('data', '')

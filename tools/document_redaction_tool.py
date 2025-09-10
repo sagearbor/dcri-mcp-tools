@@ -11,21 +11,29 @@ from datetime import datetime
 
 def run(input_data: Dict) -> Dict:
     """
-    Redact confidential information from documents.
+    Redacts confidential information from clinical documents while preserving document structure.
     
-    Args:
-        input_data: Dictionary containing:
-            - text: Document text to redact
-            - redaction_level: 'minimal', 'standard', 'maximum'
-            - custom_patterns: List of custom regex patterns to redact
-            - preserve_structure: Whether to maintain document formatting
-            - replacement_char: Character to use for redaction (default: 'X')
-            - phi_categories: List of PHI categories to redact
-            - allow_list: Terms/patterns to never redact
-            - output_format: 'redacted_text', 'annotations', 'both'
+    Example:
+        Input: Document text with subject IDs, names, and contact information to be redacted
+        Output: Redacted document with sensitive information masked using specified replacement characters
     
-    Returns:
-        Dictionary with redacted text and redaction metadata
+    Parameters:
+        text : str
+            Document text content to redact
+        redaction_level : str
+            Redaction intensity ('minimal', 'standard', 'maximum')
+        custom_patterns : list
+            Custom regex patterns for redaction
+        preserve_structure : bool
+            Maintain document formatting during redaction
+        replacement_char : str
+            Character for redaction (default 'X')
+        phi_categories : list
+            PHI categories to redact
+        allow_list : list
+            Terms to never redact
+        output_format : str
+            Output format ('redacted_text', 'annotations', 'both')
     """
     try:
         text = input_data.get('text', '')

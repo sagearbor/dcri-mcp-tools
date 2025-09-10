@@ -290,7 +290,7 @@ def run(input_data: Dict) -> Dict:
             'recommended_next_visit_date': next_visit_date.isoformat(),
             'visit_interval_days': next_visit_interval,
             'visit_type': 'Follow-up' if critical_findings > 0 else 'Routine',
-            'focus_areas': self._determine_focus_areas(findings_by_category, performance_concerns),
+            'focus_areas': _determine_focus_areas(findings_by_category, performance_concerns),
             'estimated_duration_hours': 6 if critical_findings > 0 else 4
         }
         

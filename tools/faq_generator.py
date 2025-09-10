@@ -14,19 +14,27 @@ def run(input_data: Dict) -> Dict:
     """
     Generate FAQs from study queries and issues.
     
-    Args:
-        input_data: Dictionary containing:
-            - action: 'generate', 'categorize', 'update', 'format', 'analyze'
-            - questions: List of questions/issues
-            - existing_faqs: Current FAQ list
-            - source_type: 'queries', 'issues', 'feedback', 'mixed'
-            - categorization: Auto-categorize questions
-            - format_style: 'simple', 'detailed', 'clinical', 'participant'
-            - priority_threshold: Minimum frequency for inclusion
-            - target_audience: 'participants', 'investigators', 'staff', 'all'
+    Example:
+        Input: List of participant questions where "Am I eligible?" was asked 15 times and "How long does it take?" was asked 12 times
+        Output: Categorized FAQ document with answers in participant-friendly format
     
-    Returns:
-        Dictionary with generated FAQs and metadata
+    Parameters:
+        action : str
+            'generate', 'categorize', 'update', 'format', or 'analyze'
+        questions : list
+            List of questions/issues with frequency counts
+        target_audience : str
+            'participants', 'investigators', 'staff', or 'all'
+        format_style : str
+            'simple', 'detailed', 'clinical', or 'participant'
+        source_type : str, optional
+            'queries', 'issues', 'feedback', or 'mixed'
+        categorization : bool, optional
+            Auto-categorize questions (default: True)
+        priority_threshold : int, optional
+            Minimum frequency for inclusion (default: 2)
+        existing_faqs : list, optional
+            Current FAQ list for updates
     """
     try:
         action = input_data.get('action', 'generate').lower()

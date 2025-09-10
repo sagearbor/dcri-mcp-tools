@@ -41,6 +41,25 @@ pytest tests/test_server.py -v
 pytest tests/test_auth.py -v
 ```
 
+### Writing Tests for New Tools
+When creating tests for new tools, ensure test cases use realistic clinical research data that matches the tool's documentation. Test files should:
+1. Import the tool's `run` function
+2. Test with valid input matching the Parameters documented in the tool
+3. Verify output structure matches what's described in the Example section
+4. Include edge cases and error handling tests
+
+Example test structure:
+```python
+def test_tool_basic():
+    """Test with basic valid input matching the tool's Example section"""
+    input_data = {
+        "param_name": "value",
+        # Match the parameters documented in the tool
+    }
+    result = run(input_data)
+    assert "expected_key" in result
+```
+
 ### Manual Testing
 ```bash
 # Health check endpoint
@@ -68,6 +87,33 @@ The application uses a dual configuration approach:
 
 ### Tool Architecture
 Each tool is a Python module in the `tools/` directory that exports a `run(input_data: dict) -> dict` function. Tools are loaded dynamically via `/run_tool/<tool_name>` POST endpoints.
+
+### Tool Documentation Format
+All tools must follow this standardized docstring format for consistency and demo page display:
+
+```python
+def run(input_data: Dict) -> Dict:
+    """
+    [One line description of what the tool does]
+    
+    Example:
+        Input: [Natural language description of the input data]
+        Output: [Natural language description of what gets returned]
+    
+    Parameters:
+        param_name : type
+            Description of parameter
+        param_name2 : type, optional
+            Description of optional parameter (default: value)
+    """
+```
+
+**Important Notes:**
+- The Example section uses natural language, not JSON
+- Parameters section lists each parameter with its type and description
+- Optional parameters should be marked with ", optional" and include default values
+- The demo pages will display these sections in collapsible accordions
+- After adding documentation, update checklist.md with [ExAdded2] marker
 
 ### Development Phases
 The project follows a phased development approach outlined in `checklist.md`:

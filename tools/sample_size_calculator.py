@@ -15,19 +15,27 @@ from typing import Dict, Any, Optional
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Calculate sample size for clinical trial based on design parameters.
+    Calculate sample size for clinical trials with various designs and endpoint types.
     
-    Args:
-        input_data: Dictionary containing:
-            - design_type: str ('superiority', 'non_inferiority', 'equivalence')
-            - outcome_type: str ('continuous', 'binary', 'time_to_event')
-            - alpha: float (Type I error rate, default 0.05)
-            - power: float (Statistical power, default 0.8)
-            - effect_size: float (Expected effect size)
-            - allocation_ratio: float (Ratio of treatment to control, default 1)
-            - dropout_rate: float (Expected dropout rate, default 0.1)
-            
-            For continuous outcomes:
+    Example:
+        Input: Study design parameters with effect size, power, and allocation ratio
+        Output: Calculated sample size with power analysis and design recommendations
+    
+    Parameters:
+        design_type : str
+            Study design: 'superiority', 'non_inferiority', 'equivalence'
+        outcome_type : str
+            Primary endpoint type: 'continuous', 'binary', 'time_to_event'
+        alpha : float, optional
+            Type I error rate (default: 0.05)
+        power : float, optional
+            Statistical power (default: 0.8)
+        effect_size : float
+            Expected clinically meaningful effect size
+        allocation_ratio : float, optional
+            Ratio of treatment to control group (default: 1.0)
+        dropout_rate : float, optional
+            Expected dropout rate (default: 0.1)
             - mean_difference: float (Expected mean difference)
             - std_dev: float (Standard deviation)
             

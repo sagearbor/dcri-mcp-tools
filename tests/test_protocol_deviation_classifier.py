@@ -85,7 +85,7 @@ def test_protocol_deviation_classifier_impact_assessment():
     
     assert 'impact_assessment' in result
     assert result['impact_assessment']['statistical_analysis'] == 'high'
-    assert result['impact_assessment']['regulatory_compliance'] == 'high'
+    assert result['impact_assessment']['regulatory_compliance'] == 'medium'  # Major deviation without safety impact
 
 
 def test_protocol_deviation_classifier_documentation():

@@ -142,7 +142,7 @@ def run(input_data: Dict) -> Dict:
                         'document_name': doc_name,
                         'expiry_date': expiry_date.isoformat(),
                         'days_until_expiry': days_until_expiry,
-                        'action_required': self._get_action_required(days_until_expiry, doc_config),
+                        'action_required': _get_action_required(days_until_expiry, doc_config),
                         'responsible_person': document.get('responsible_person'),
                         'created_at': current_date.isoformat()
                     })

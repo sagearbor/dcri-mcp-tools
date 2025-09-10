@@ -4,25 +4,23 @@ from datetime import datetime
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Validate FDA submission packages for completeness and compliance.
-    Checks IND, NDA, BLA, and other submission types against FDA requirements.
+    Validates FDA submission packages for completeness and regulatory compliance across multiple submission types.
     
-    Args:
-        input_data: Dict containing:
-            - submission_type (str): 'IND', 'NDA', 'BLA', 'ANDA', '510k', 'IDE'
-            - documents (list): List of document names/paths in the submission
-            - phase (str, optional): Clinical phase for IND submissions
-            - fast_track (bool, optional): Whether this is a fast track submission
-            - validate_format (bool, optional): Check eCTD format compliance
+    Example:
+        Input: Submission type, document list, and phase information for FDA validation
+        Output: Compliance assessment with missing documents list and submission recommendations
     
-    Returns:
-        Dict containing:
-            - is_complete (bool): Whether submission appears complete
-            - missing_required (list): Required documents that are missing
-            - missing_recommended (list): Recommended documents that are missing
-            - compliance_score (float): Overall compliance percentage
-            - issues (list): List of specific compliance issues found
-            - recommendations (list): Suggestions for improving submission
+    Parameters:
+        submission_type : str
+            FDA submission type ('IND', 'NDA', 'BLA', 'ANDA', '510k', 'IDE')
+        documents : list
+            List of document names or paths in the submission package
+        phase : str
+            Clinical phase for IND submissions (optional)
+        fast_track : bool
+            Whether this is a fast track designation (optional)
+        validate_format : bool
+            Check eCTD format compliance (optional)
     """
     submission_type = input_data.get('submission_type', '').upper()
     documents = input_data.get('documents', [])

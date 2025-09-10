@@ -5,24 +5,19 @@ import math
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Check the reading grade level of informed consent documents.
-    Uses multiple readability formulas to ensure consent forms meet recommended levels.
+    Evaluates reading grade level of informed consent documents using multiple readability formulas.
     
-    Args:
-        input_data: Dict containing:
-            - text (str): Consent document text
-            - target_grade (int, optional): Target grade level (default: 8)
-            - include_recommendations (bool, optional): Include improvement suggestions
+    Example:
+        Input: Consent document text with target reading grade level
+        Output: Grade level analysis with multiple readability scores and suggestions for improvement
     
-    Returns:
-        Dict containing:
-            - flesch_kincaid_grade: Flesch-Kincaid Grade Level score
-            - flesch_reading_ease: Flesch Reading Ease score
-            - gunning_fog: Gunning Fog Index score
-            - average_grade: Average of all grade level scores
-            - meets_target: Boolean indicating if text meets target grade
-            - recommendations: List of suggestions to improve readability
-            - statistics: Text statistics (sentences, words, syllables)
+    Parameters:
+        text : str
+            Consent document text content
+        target_grade : int
+            Target reading grade level (optional, default 8)
+        include_recommendations : bool
+            Include improvement suggestions (optional)
     """
     text = input_data.get('text', '')
     target_grade = input_data.get('target_grade', 8)

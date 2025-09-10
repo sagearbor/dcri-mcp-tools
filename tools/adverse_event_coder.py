@@ -137,24 +137,17 @@ def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
     Auto-codes adverse events to MedDRA terms and assigns severity grades.
     
-    Args:
-        input_data: Dictionary containing:
-            - events: List of adverse event dictionaries with:
-                - verbatim_term: The verbatim AE term reported
-                - severity_description: Optional severity description
-                - start_date: Optional start date (YYYY-MM-DD)
-                - end_date: Optional end date (YYYY-MM-DD)
-                - outcome: Optional outcome
-                - subject_id: Optional subject identifier
-            - coding_version: Optional MedDRA version (default: "24.0")
-            - match_threshold: Optional similarity threshold (0-1, default: 0.7)
+    Example:
+        Input: Adverse event report with "bad headache" marked as severe for subject 001
+        Output: MedDRA coded term with PT "Headache", SOC "Nervous system disorders", severity grade 3
     
-    Returns:
-        Dictionary containing:
-            - coded_events: List of coded adverse events
-            - summary: Coding summary statistics
-            - uncoded_terms: List of terms that couldn't be coded
-            - warnings: Any warnings or issues
+    Parameters:
+        events : list
+            List of adverse event dictionaries with verbatim terms and severity
+        coding_version : str, optional
+            MedDRA version (default: "24.0")
+        match_threshold : float, optional
+            Similarity threshold 0-1 (default: 0.7)
     """
     try:
         events = input_data.get("events", [])

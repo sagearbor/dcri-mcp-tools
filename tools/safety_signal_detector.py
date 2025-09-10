@@ -5,29 +5,23 @@ from collections import defaultdict
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Identifies potential safety signals using statistical methods.
+    Identify potential safety signals using statistical methods and disproportionality analysis.
     
-    Args:
-        input_data: Dictionary containing:
-            - adverse_events: List of AE dictionaries with:
-                - event_term: Adverse event term
-                - treatment_group: Treatment group (e.g., "drug", "placebo")
-                - subject_id: Subject identifier
-                - severity: Optional severity grade
-                - serious: Optional boolean for SAE
-            - total_subjects: Dictionary with group sizes:
-                - drug: Number of subjects in drug group
-                - placebo: Number of subjects in placebo group
-            - signal_threshold: Optional RR threshold (default: 2.0)
-            - min_cases: Minimum cases for signal (default: 3)
-            - methods: List of detection methods (default: ["RR", "PRR"])
+    Example:
+        Input: Adverse event data with treatment groups and exposure information
+        Output: Statistical safety signals with risk ratios, confidence intervals, and priority assessment
     
-    Returns:
-        Dictionary containing:
-            - signals: List of detected safety signals
-            - statistics: Statistical measures for each AE
-            - high_priority_signals: Signals requiring immediate attention
-            - summary: Analysis summary
+    Parameters:
+        adverse_events : list
+            List of adverse event records with event_term, treatment_group, subject_id
+        total_subjects : dict
+            Dictionary with group sizes for drug and placebo arms
+        signal_threshold : float, optional
+            Relative risk threshold for signal detection (default: 2.0)
+        min_cases : int, optional
+            Minimum number of cases required for signal consideration (default: 3)
+        methods : list, optional
+            Detection methods to use: 'RR', 'PRR', 'ROR', 'IC' (default: ['RR', 'PRR'])
             - recommendations: Recommended actions
     """
     try:

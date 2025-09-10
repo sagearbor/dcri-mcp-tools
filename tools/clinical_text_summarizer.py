@@ -12,13 +12,15 @@ load_dotenv()
 
 def run(input_data: dict) -> dict:
     """
-    Summarize clinical text using Azure OpenAI
+    Summarizes clinical text using AI to preserve key medical findings and diagnostic information.
     
-    Args:
-        input_data: dict with 'text' key containing clinical text to summarize
+    Example:
+        Input: Clinical text with patient presentation, diagnostic results, and treatment notes
+        Output: Concise summary preserving essential medical information and clinical findings
     
-    Returns:
-        dict with 'summary' key containing the summarized text
+    Parameters:
+        text : str
+            Clinical text content to be summarized
     """
     
     text = input_data.get('text', '')

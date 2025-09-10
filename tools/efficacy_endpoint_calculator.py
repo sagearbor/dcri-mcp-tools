@@ -8,7 +8,21 @@ import math
 from datetime import datetime
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
-    """Run efficacy endpoint calculator analysis."""
+    """
+    Calculates primary and secondary efficacy endpoints with statistical significance testing.
+    
+    Example:
+        Input: Clinical trial data with treatment outcomes and analysis parameters
+        Output: Efficacy endpoints with confidence intervals, p-values, and response rates
+    
+    Parameters:
+        data : list
+            Clinical trial data for endpoint calculations
+        parameters : dict
+            Analysis parameters including endpoints, methods, and confidence levels
+        endpoint_type : str
+            Type of endpoint analysis (primary or secondary)
+    """
     
     # Extract input parameters
     data = input_data.get('data', [])

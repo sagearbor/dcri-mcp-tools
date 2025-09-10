@@ -12,21 +12,29 @@ from collections import Counter
 
 def run(input_data: Dict) -> Dict:
     """
-    Generate structured meeting minutes from notes and recordings.
+    Generate structured meeting minutes from notes, recordings, and agenda items.
     
-    Args:
-        input_data: Dictionary containing:
-            - action: 'generate', 'template', 'format', 'summarize', 'extract_actions'
-            - meeting_type: 'investigator', 'safety', 'steering_committee', 'site_initiation', 'closeout'
-            - meeting_info: Basic meeting information (date, attendees, etc.)
-            - notes: Raw meeting notes or transcript
-            - agenda: Meeting agenda items
-            - previous_minutes: Previous meeting minutes for follow-up
-            - format_style: 'formal', 'detailed', 'executive_summary', 'action_focused'
-            - output_format: 'html', 'pdf', 'docx', 'markdown'
+    Example:
+        Input: Meeting notes, agenda, attendee information, and formatting preferences
+        Output: Structured meeting minutes with action items, decisions, and multiple output formats
     
-    Returns:
-        Dictionary with generated meeting minutes and metadata
+    Parameters:
+        action : str
+            Operation to perform: 'generate', 'template', 'format', 'summarize', 'extract_actions'
+        meeting_type : str
+            Type of meeting: 'investigator', 'safety', 'steering_committee', 'site_initiation', 'closeout'
+        meeting_info : dict
+            Basic meeting information including date, attendees, and venue details
+        notes : str
+            Raw meeting notes or transcript text
+        agenda : list
+            Meeting agenda items and discussion topics
+        previous_minutes : dict, optional
+            Previous meeting minutes for tracking follow-up items
+        format_style : str, optional
+            Output style: 'formal', 'detailed', 'executive_summary', 'action_focused'
+        output_format : str, optional
+            Output format: 'html', 'pdf', 'docx', 'markdown'
     """
     try:
         action = input_data.get('action', 'generate').lower()
@@ -437,9 +445,11 @@ def _extract_decisions(structured_content: Dict) -> List[Dict]:
     # Extract from unstructured content
     unstructured = structured_content.get('unstructured_content', '')
     decision_patterns = [
-        r'(?:decided|agreed|resolved|concluded)[:\s]*(.+?)(?:\.|$)',
+        r'(?:decided|agreed|resolved|concluded|approved)[:\s]*(.+?)(?:\.|$)',
         r'(?:decision|resolution)[:\s]*(.+?)(?:\.|$)',
-        r'(?:it was agreed|consensus reached)[:\s]*(.+?)(?:\.|$)'
+        r'(?:it was agreed|consensus reached)[:\s]*(.+?)(?:\.|$)',
+        r'(?:^|\n)\s*-\s*approved\s+(.+?)(?:\.|$)',
+        r'(?:^|\n)\s*-\s*decision[:]\s*(.+?)(?:\.|$)'
     ]
     
     for pattern in decision_patterns:
@@ -1088,12 +1098,21 @@ def _extract_due_date(action_text: str) -> str:
 def _determine_action_priority(action_text: str, full_notes: str) -> str:
     """Determine priority of action item."""
     urgent_keywords = ['urgent', 'asap', 'immediately', 'critical', 'high priority']
+    safety_keywords = ['cardiac monitoring', 'safety database', 'sae', 'adverse event', 'monitoring', 'safety']
     low_keywords = ['when time permits', 'low priority', 'nice to have']
     
     action_lower = action_text.lower()
+    full_notes_lower = full_notes.lower()
     
+    # Check for explicit urgency
     if any(keyword in action_lower for keyword in urgent_keywords):
         return 'high'
+    
+    # Safety-related actions in safety meetings are high priority
+    if any(keyword in action_lower for keyword in safety_keywords):
+        if 'safety' in full_notes_lower and any(term in full_notes_lower for term in ['sae', 'adverse', 'cardiac']):
+            return 'high'
+    
     elif any(keyword in action_lower for keyword in low_keywords):
         return 'low'
     else:
@@ -1783,17 +1802,28 @@ def _identify_meeting_outcomes(notes: str, discussions: List[Dict]) -> List[str]
     outcome_patterns = [
         r'(?:outcome|result|conclusion)[:\s]*(.+?)(?:\.|$)',
         r'(?:end result|final)[:\s]*(.+?)(?:\.|$)',
-        r'(?:achieved|accomplished)[:\s]*(.+?)(?:\.|$)'
+        r'(?:achieved|accomplished)[:\s]*(.+?)(?:\.|$)',
+        r'(?:status|progress)[:\s]*(.+?)(?:\.|$)',
+        r'(?:performance)[:\s]*(.+?)(?:\.|$)',
+        r'(?:we are|currently|now)[:\s]*(.+?)(?:\.|$)'
     ]
     
     for pattern in outcome_patterns:
         matches = re.finditer(pattern, notes, re.IGNORECASE)
         for match in matches:
             outcome = match.group(1).strip()
-            if len(outcome) > 10:
+            if len(outcome) > 15 and not outcome.lower().startswith(('the', 'a ', 'an ')):
                 outcomes.append(outcome)
     
-    return outcomes
+    # Also extract status updates and performance summaries
+    lines = notes.split('\n')
+    for line in lines:
+        line = line.strip()
+        if any(keyword in line.lower() for keyword in ['enrollment achieved', 'within budget', 'on track', 'ahead of schedule', 'behind schedule']):
+            if len(line) > 15:
+                outcomes.append(line)
+    
+    return list(set(outcomes))  # Remove duplicates
 
 
 def _analyze_participation(notes: str) -> Dict:

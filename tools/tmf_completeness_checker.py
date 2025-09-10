@@ -4,22 +4,21 @@ from datetime import datetime
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Check Trial Master File (TMF) completeness against regulatory requirements.
+    Check Trial Master File (TMF) completeness against regulatory requirements and inspection readiness.
     
-    Args:
-        input_data: Dict containing:
-            - documents (list): List of documents in TMF
-            - study_phase (str): Phase of study (1, 2, 3, 4)
-            - study_status (str): 'planning', 'active', 'closed'
-            - sites (int): Number of sites
+    Example:
+        Input: TMF document list with study phase, status, and site information
+        Output: Completeness assessment with missing documents, inspection readiness, and compliance score
     
-    Returns:
-        Dict containing:
-            - completeness_score (float): Overall TMF completeness percentage
-            - missing_essential (list): Missing essential documents
-            - missing_recommended (list): Missing recommended documents
-            - by_section (dict): Completeness by TMF section
-            - inspection_readiness (str): 'ready', 'needs_work', 'not_ready'
+    Parameters:
+        documents : list
+            List of documents currently in the TMF
+        study_phase : str
+            Clinical trial phase: '1', '2', '3', or '4'
+        study_status : str
+            Current study status: 'planning', 'active', 'closed'
+        sites : int
+            Number of investigational sites in the study
     """
     documents = input_data.get('documents', [])
     study_phase = input_data.get('study_phase', '3')

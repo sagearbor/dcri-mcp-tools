@@ -10,19 +10,25 @@ from collections import Counter
 
 def run(input_data: Dict) -> Dict:
     """
-    Monitor and analyze patient diary compliance for ePRO data collection
+    Monitor and analyze patient diary compliance for ePRO data collection with AI-powered insights.
     
-    Args:
-        input_data: Dictionary containing:
-            - diary_data: Patient diary entries and completion records
-            - study_schedule: Expected diary completion schedule
-            - compliance_thresholds: Compliance rate thresholds for alerts
-            - patient_population: Patient demographic and baseline data
-            - reminder_settings: Reminder and notification preferences
-            - quality_criteria: Data quality assessment criteria
+    Example:
+        Input: Patient diary entries, completion schedule, and compliance thresholds
+        Output: Compliance analysis with quality assessment, risk identification, and intervention recommendations
     
-    Returns:
-        Dictionary with compliance analysis, quality assessment, and recommendations
+    Parameters:
+        diary_data : list
+            Patient diary entries and completion records
+        study_schedule : dict
+            Expected diary completion schedule and frequency
+        compliance_thresholds : dict, optional
+            Compliance rate thresholds for alert levels
+        patient_population : list, optional
+            Patient demographic and baseline data for analysis
+        reminder_settings : dict, optional
+            Reminder and notification configuration
+        quality_criteria : dict, optional
+            Data quality assessment criteria and standards
     """
     try:
         diary_data = input_data.get('diary_data', [])

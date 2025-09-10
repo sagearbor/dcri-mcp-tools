@@ -10,19 +10,25 @@ from datetime import datetime, timedelta
 
 def run(input_data: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Prepare data for interim analysis.
+    Prepare data for interim analyses with appropriate data cuts and unblinding rules.
     
-    Args:
-        input_data: Dictionary containing:
-            - analysis_type: str ('safety', 'efficacy', 'futility')
-            - data_cutoff_date: str
-            - n_enrolled: int
-            - target_enrollment: int
-            - unblinding_level: str ('fully_blinded', 'partially_unblinded', 'unblinded')
-            - subjects_data: list (optional)
+    Example:
+        Input: Analysis type, enrollment status, data cutoff date, and unblinding requirements
+        Output: Prepared interim analysis plan with stopping boundaries, data subsets, and recommendations
     
-    Returns:
-        Dictionary with prepared interim analysis data
+    Parameters:
+        analysis_type : str
+            Type of interim analysis: 'safety', 'efficacy', or 'futility'
+        data_cutoff_date : str
+            Date for data cutoff in YYYY-MM-DD format
+        n_enrolled : int
+            Number of subjects currently enrolled
+        target_enrollment : int
+            Target total enrollment for the study
+        unblinding_level : str
+            Level of unblinding: 'fully_blinded', 'partially_unblinded', 'unblinded'
+        subjects_data : list, optional
+            Subject data for analysis preparation
     """
     
     analysis_type = input_data.get('analysis_type', 'safety')
