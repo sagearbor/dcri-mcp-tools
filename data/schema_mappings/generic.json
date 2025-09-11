@@ -1,0 +1,21 @@
+{
+  "schema_id": "generic",
+  "description": "Generic clinical trial schedule format",
+  "visit_extraction": "$.visits[*]",
+  "participant_extraction": "$.participants[*]",
+  "site_extraction": "$.sites[*]",
+  "field_mappings": {
+    "visit_id": "id",
+    "visit_date": "date",
+    "visit_day": "day",
+    "site_id": "site",
+    "participant_id": "participant_id",
+    "procedures": "procedures",
+    "visit_type": "type"
+  },
+  "optional_fields": {
+    "visit_window": "window",
+    "visit_notes": "notes",
+    "visit_status": "status"
+  }
+}

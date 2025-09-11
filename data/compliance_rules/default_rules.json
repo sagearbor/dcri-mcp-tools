@@ -1,0 +1,192 @@
+[
+  {
+    "rule_id": "SITE-001",
+    "rule_type": "logistics",
+    "description": "Visits must be scheduled during site operating hours",
+    "applies_to": {
+      "data_type": "visits"
+    },
+    "validation": {
+      "type": "business_hours",
+      "parameters": {
+        "default_hours": "M-F 8:00-17:00",
+        "allow_weekends": false
+      }
+    },
+    "severity": "error",
+    "recommendation": "Reschedule visit to a weekday between 8 AM and 5 PM"
+  },
+  {
+    "rule_id": "SITE-002",
+    "rule_type": "logistics",
+    "description": "Holiday blackout dates must be respected",
+    "applies_to": {
+      "data_type": "visits"
+    },
+    "validation": {
+      "type": "blackout_dates",
+      "parameters": {
+        "holidays": [
+          "2024-01-01", "2024-07-04", "2024-12-25",
+          "2024-11-28", "2024-11-29"
+        ]
+      }
+    },
+    "severity": "error",
+    "recommendation": "Reschedule visit to avoid holiday periods"
+  },
+  {
+    "rule_id": "SEQ-001",
+    "rule_type": "logistics",
+    "description": "Visits must be in chronological order",
+    "applies_to": {
+      "data_type": "visit_sequence"
+    },
+    "validation": {
+      "type": "visit_order",
+      "parameters": {}
+    },
+    "severity": "error",
+    "recommendation": "Reorder visits to ensure later protocol days have later calendar dates"
+  },
+  {
+    "rule_id": "REG-001",
+    "rule_type": "regulatory",
+    "description": "Safety follow-up required within 7 days of invasive procedures",
+    "applies_to": {
+      "data_type": "visit_sequence"
+    },
+    "validation": {
+      "type": "safety_followup",
+      "parameters": {
+        "safety_trigger_procedures": ["biopsy", "surgery", "invasive_imaging", "lumbar_puncture"],
+        "followup_window_days": 7
+      }
+    },
+    "severity": "error",
+    "recommendation": "Schedule a safety follow-up visit within 7 days of invasive procedure"
+  },
+  {
+    "rule_id": "REG-002",
+    "rule_type": "regulatory",
+    "description": "Informed consent must be obtained before any study procedures",
+    "applies_to": {
+      "data_type": "visits"
+    },
+    "validation": {
+      "type": "consent_timing",
+      "parameters": {
+        "consent_procedures": ["informed_consent", "consent"],
+        "exempt_procedures": ["scheduling", "phone_screen"]
+      }
+    },
+    "severity": "error",
+    "recommendation": "Ensure informed consent is completed at or before first study visit"
+  },
+  {
+    "rule_id": "RES-001",
+    "rule_type": "equipment",
+    "description": "Site must have required equipment for scheduled procedures",
+    "applies_to": {
+      "data_type": "visits"
+    },
+    "validation": {
+      "type": "site_capability",
+      "parameters": {
+        "site_capabilities": {
+          "SITE-001": ["blood_draw", "ecg", "basic_imaging", "xray"],
+          "SITE-002": ["blood_draw", "ecg", "mri", "ct_scan", "biopsy", "surgery"],
+          "SITE-003": ["blood_draw", "ecg", "xray", "ultrasound"],
+          "SITE-004": ["blood_draw", "ecg", "mri", "pet_scan", "specialized_lab"]
+        },
+        "default_capabilities": ["blood_draw", "ecg", "vital_signs"],
+        "procedure_requirements": {
+          "MRI": "mri",
+          "CT Scan": "ct_scan",
+          "CT": "ct_scan",
+          "Biopsy": "biopsy",
+          "X-Ray": "xray",
+          "PET Scan": "pet_scan",
+          "Ultrasound": "ultrasound",
+          "Surgery": "surgery"
+        }
+      }
+    },
+    "severity": "error",
+    "recommendation": "Change site to one with required equipment or relocate procedure"
+  },
+  {
+    "rule_id": "WIN-001",
+    "rule_type": "regulatory",
+    "description": "Visits must be within protocol-defined windows",
+    "applies_to": {
+      "data_type": "visits"
+    },
+    "validation": {
+      "type": "visit_window",
+      "parameters": {
+        "window_before": 3,
+        "window_after": 3,
+        "strict_windows": {
+          "screening": {"before": 0, "after": 7},
+          "baseline": {"before": 0, "after": 0},
+          "final": {"before": 2, "after": 2}
+        }
+      }
+    },
+    "severity": "warning",
+    "recommendation": "Adjust visit date to be within protocol-defined window"
+  },
+  {
+    "rule_id": "WASH-001",
+    "rule_type": "safety",
+    "description": "Minimum 14-day washout between contrast imaging procedures",
+    "applies_to": {
+      "data_type": "visit_sequence"
+    },
+    "validation": {
+      "type": "washout_period",
+      "parameters": {
+        "procedure_type": "contrast_imaging",
+        "minimum_days_between": 14,
+        "affected_procedures": ["contrast_mri", "contrast_ct", "angiography"]
+      }
+    },
+    "severity": "error",
+    "recommendation": "Increase spacing between contrast imaging procedures to at least 14 days"
+  },
+  {
+    "rule_id": "WASH-002",
+    "rule_type": "safety",
+    "description": "Minimum 30-day washout between certain medications",
+    "applies_to": {
+      "data_type": "visit_sequence"
+    },
+    "validation": {
+      "type": "washout_period",
+      "parameters": {
+        "procedure_type": "investigational_drug",
+        "minimum_days_between": 30
+      }
+    },
+    "severity": "warning",
+    "recommendation": "Ensure adequate washout period between investigational drug administrations"
+  },
+  {
+    "rule_id": "LAB-001",
+    "rule_type": "logistics",
+    "description": "Fasting labs must be scheduled in morning hours",
+    "applies_to": {
+      "data_type": "visits"
+    },
+    "validation": {
+      "type": "procedure_timing",
+      "parameters": {
+        "procedures": ["fasting_glucose", "lipid_panel", "fasting_labs"],
+        "required_time_range": "06:00-10:00"
+      }
+    },
+    "severity": "warning",
+    "recommendation": "Schedule fasting lab procedures between 6 AM and 10 AM"
+  }
+]

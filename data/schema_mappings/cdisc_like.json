@@ -1,0 +1,22 @@
+{
+  "schema_id": "cdisc_like",
+  "description": "CDISC-style clinical trial data format",
+  "visit_extraction": "$.SV[*]",
+  "participant_extraction": "$.DM[*]",
+  "site_extraction": "$.SITE[*]",
+  "field_mappings": {
+    "visit_id": "VISITNUM",
+    "visit_date": "SVSTDTC",
+    "visit_day": "VISITDY",
+    "site_id": "SITEID",
+    "participant_id": "USUBJID",
+    "procedures": "PROC",
+    "visit_type": "VISIT"
+  },
+  "optional_fields": {
+    "visit_window_start": "SVSTDY",
+    "visit_window_end": "SVENDY",
+    "visit_status": "SVSTAT"
+  },
+  "date_format": "YYYY-MM-DD"
+}

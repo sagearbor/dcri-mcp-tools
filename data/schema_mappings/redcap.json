@@ -1,0 +1,23 @@
+{
+  "schema_id": "redcap",
+  "description": "REDCap export format for clinical trials",
+  "visit_extraction": "$.data[*]",
+  "participant_extraction": "$.data[?(@.redcap_event_name=='enrollment_arm_1')]",
+  "site_extraction": "$.metadata.sites[*]",
+  "field_mappings": {
+    "visit_id": "redcap_event_name",
+    "visit_date": "visit_date",
+    "visit_day": "study_day",
+    "site_id": "site_number",
+    "participant_id": "record_id",
+    "procedures": "procedures_performed",
+    "visit_type": "event_name"
+  },
+  "optional_fields": {
+    "visit_completed": "visit_complete",
+    "visit_notes": "visit_notes",
+    "data_entry_date": "redcap_data_entry_timestamp"
+  },
+  "array_fields": ["procedures_performed"],
+  "date_format": "MM/DD/YYYY"
+}
