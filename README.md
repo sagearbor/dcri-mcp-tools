@@ -1,7 +1,11 @@
 # dcri-mcp-tools
-A modular tool server for DCRI clinical research, designed for Azure deployment and integration using MCP.
+A modular tool server for DCRI clinical research with true MCP (Model Context Protocol) support, designed for Azure deployment.
 
-This repository contains the backend server that hosts a suite of tools accessible via a REST API. It's built with Flask and designed to be deployed as a containerized application on Azure. It features a dual configuration system for easy local development and secure production deployment using Azure Key Vault.
+This repository contains both:
+1. **MCP Protocol Servers**: True MCP implementation using JSON-RPC 2.0 over stdio for tool communication
+2. **REST API Server**: Flask-based REST API for backward compatibility and web access
+
+The system features a dual configuration system for easy local development and secure production deployment using Azure Key Vault.
 
 ## Project Structure
 
@@ -12,12 +16,19 @@ This repository contains the backend server that hosts a suite of tools accessib
 ├── sharepoint/           # Client for interacting with SharePoint.
 ├── tools/                # Individual, self-contained tool modules.
 ├── tests/                # Unit and integration tests for the application.
-├── .env.example          # Template for environment variables.
-├── .gitignore            # Specifies files for Git to ignore.
-├── CHECKLIST.md          # Phased development checklist.
-├── Dockerfile            # Container definition for deployment.
-├── requirements.txt      # Python dependencies.
-└── server.py             # Core Flask application and endpoint routing.
+├── logs/                 # MCP server logs (created at runtime)
+├── pids/                 # MCP server PIDs (created at runtime)
+├── mcp_server.py         # Core MCP server implementation (JSON-RPC 2.0)
+├── mcp_client.py         # MCP client for testing and integration
+├── mcp_tool_wrapper.py   # Automatic tool discovery and wrapping for MCP
+├── mcp_config.json       # MCP server configuration
+├── start_mcp_servers.sh  # Script to start/stop/manage MCP servers
+├── test_mcp.py           # MCP protocol tests
+├── test_mcp_integration.py # End-to-end MCP integration tests
+├── MCP_IMPLEMENTATION_GUIDE.md # Complete MCP documentation
+├── server.py             # Core Flask application (REST API)
+├── requirements.txt      # Python dependencies
+└── Dockerfile            # Container definition for deployment
 ```
 
 ## Getting Started
@@ -102,6 +113,37 @@ python server.py
 ```
 
 The server will start on `http://127.0.0.1:8210`. You can test that it's running by visiting the health check endpoint: `http://127.0.0.1:8210/health`.
+
+### Running MCP Servers
+
+To run the true MCP protocol servers (JSON-RPC 2.0 over stdio):
+
+```bash
+# Start all MCP servers
+./start_mcp_servers.sh start
+
+# Check server status
+./start_mcp_servers.sh status
+
+# View logs
+./start_mcp_servers.sh logs
+
+# Stop all servers
+./start_mcp_servers.sh stop
+```
+
+### Testing MCP Servers
+
+```bash
+# Run MCP protocol tests
+python test_mcp.py
+
+# Run integration tests
+python test_mcp_integration.py
+
+# Interactive MCP client
+python mcp_client.py
+```
 
 ### Running Tests
 
