@@ -1,0 +1,83 @@
+{
+  "servers": [
+    {
+      "name": "dcri-mcp-tools",
+      "version": "1.0.0",
+      "description": "Main DCRI MCP tools server with all clinical research tools",
+      "command": ["python", "mcp_tool_wrapper.py"],
+      "cwd": "/dcri/sasusers/home/scb2/gitRepos/dcri-mcp-tools",
+      "env": {},
+      "capabilities": {
+        "tools": true,
+        "resources": false,
+        "notifications": false
+      },
+      "tools": [
+        "study_complexity_calculator",
+        "compliance_knowledge_base",
+        "sql_reviewer",
+        "test_echo"
+      ]
+    },
+    {
+      "name": "protocol-complexity-analyzer",
+      "version": "1.0.0",
+      "description": "Protocol complexity analysis MCP server",
+      "command": ["python", "mcp_server.py"],
+      "cwd": "/dcri/sasusers/home/scb2/gitRepos/schedule-assessments-optimizer/services/mcp_ProtocolComplexityAnalyzer",
+      "env": {},
+      "capabilities": {
+        "tools": true,
+        "resources": true,
+        "notifications": false
+      },
+      "tools": [
+        "analyze-complexity",
+        "analyze-visit-burden",
+        "get-complexity-metrics"
+      ],
+      "resources": [
+        "complexity://guidelines",
+        "complexity://benchmarks"
+      ]
+    },
+    {
+      "name": "compliance-knowledge-base",
+      "version": "1.0.0",
+      "description": "Regulatory compliance checking MCP server",
+      "command": ["python", "mcp_server.py"],
+      "cwd": "/dcri/sasusers/home/scb2/gitRepos/schedule-assessments-optimizer/services/mcp_ComplianceKnowledgeBase",
+      "env": {},
+      "capabilities": {
+        "tools": true,
+        "resources": true,
+        "notifications": false
+      },
+      "tools": [
+        "check-compliance",
+        "get-regulations",
+        "validate-schedule"
+      ],
+      "resources": [
+        "compliance://ich-gcp",
+        "compliance://fda-regulations",
+        "compliance://eu-ctr"
+      ]
+    }
+  ],
+  "client": {
+    "name": "dcri-mcp-client",
+    "version": "1.0.0",
+    "timeout": 30000,
+    "retry": {
+      "enabled": true,
+      "max_attempts": 3,
+      "backoff_ms": 1000
+    }
+  },
+  "logging": {
+    "level": "INFO",
+    "directory": "/dcri/sasusers/home/scb2/gitRepos/dcri-mcp-tools/logs",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  }
+}
