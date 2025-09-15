@@ -11,11 +11,11 @@ import json
 import logging
 from typing import Dict, Any, Optional
 
-# Add parent directory to path
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# Add parent directory to path for imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from mcp_server import MCPServer
-from tools.schedule_converter import ScheduleConverter
+from scripts.mcp_server import MCPServer
+from tools.schedule_converter_azure import ScheduleConverterWithAzure as ScheduleConverter
 
 # Configure logging
 logging.basicConfig(

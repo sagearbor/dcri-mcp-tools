@@ -12,11 +12,11 @@ import os
 from io import StringIO
 from unittest.mock import MagicMock, patch
 
-# Add parent directory to path
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# Add parent directories to path for imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from mcp_server import MCPServer, MCPTool, JSONRPCError
-from mcp_client import MCPClient, MCPServerConfig
+from scripts.mcp_server import MCPServer, MCPTool, JSONRPCError
+from scripts.mcp_client import MCPClient, MCPServerConfig
 
 
 class TestMCPServer(unittest.TestCase):

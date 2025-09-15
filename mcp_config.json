@@ -4,7 +4,7 @@
       "name": "dcri-mcp-tools",
       "version": "1.0.0",
       "description": "Main DCRI MCP tools server with all clinical research tools",
-      "command": ["python", "mcp_tool_wrapper.py"],
+      "command": ["python", "scripts/mcp_tool_wrapper.py"],
       "cwd": "/dcri/sasusers/home/scb2/gitRepos/dcri-mcp-tools",
       "env": {},
       "capabilities": {

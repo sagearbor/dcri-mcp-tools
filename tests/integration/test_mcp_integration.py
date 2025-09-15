@@ -12,12 +12,15 @@ import subprocess
 import asyncio
 from typing import Dict, Any
 
-# Add to path
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# Add parent directories to path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 sys.path.insert(0, '/dcri/sasusers/home/scb2/gitRepos/schedule-assessments-optimizer/backend')
 
-from mcp_client import MCPClient, MCPServerConfig
-from mcp_integration import MCPIntegration
+from scripts.mcp_client import MCPClient, MCPServerConfig
+try:
+    from mcp_integration import MCPIntegration
+except ImportError:
+    MCPIntegration = None  # Handle if not available
 
 
 class MCPIntegrationTester:
